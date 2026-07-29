@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Image from "next/image";
 import { useRouter, usePathname } from "next/navigation";
 import { getStoredRole, setStoredRole } from "@/lib/roleStorage";
 import { AthleteIcon, CoachIcon } from "./RoleIcons";
@@ -59,23 +60,29 @@ export function RolePicker() {
       className="fixed inset-0 z-[200] flex items-center justify-center overflow-y-auto bg-navy-900 px-4 py-10"
     >
       <div className="mx-auto flex w-full max-w-2xl flex-col items-center text-center">
-        <span
-          className="font-stencil uppercase leading-none"
-          style={{
-            fontSize: 40,
-            backgroundImage: "linear-gradient(90deg, #d4a017 0%, #dc2626 100%)",
-            WebkitBackgroundClip: "text",
-            backgroundClip: "text",
-            color: "transparent",
-          }}
-        >
-          Snapdown
-        </span>
+        <Image
+          src="/logos/snapdown-logo.png"
+          alt="Snapdown"
+          width={64}
+          height={64}
+          priority
+          className="rounded-xl"
+        />
 
         <h1 className="mt-8 font-heading text-4xl uppercase leading-[1.05] text-white sm:text-5xl">
           Welcome to
           <br />
-          <span className="text-electric-500">Snapdown</span>
+          <span
+            className="font-stencil"
+            style={{
+              backgroundImage: "linear-gradient(90deg, #d4a017 0%, #dc2626 100%)",
+              WebkitBackgroundClip: "text",
+              backgroundClip: "text",
+              color: "transparent",
+            }}
+          >
+            Snapdown
+          </span>
         </h1>
 
         <p className="mt-4 text-[rgba(255,255,255,0.55)]">
