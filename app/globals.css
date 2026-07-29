@@ -1,0 +1,443 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-navy-900 text-slate-100 font-body antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-heading uppercase tracking-wide;
+  }
+}
+
+@layer components {
+  .angular-bg {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .angular-bg::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: #0f172a;
+    background-image: linear-gradient(
+        135deg,
+        rgba(212, 160, 23, 0.12) 0%,
+        transparent 45%
+      ),
+      linear-gradient(-45deg, rgba(216, 200, 157, 0.08) 0%, transparent 40%),
+      repeating-linear-gradient(
+        115deg,
+        rgba(212, 160, 23, 0.04) 0px,
+        rgba(212, 160, 23, 0.04) 2px,
+        transparent 2px,
+        transparent 80px
+      );
+  }
+
+  /*
+   * Homepage hero only — layers the training photo behind the existing
+   * angular-bg gradient pattern, heavily tinted navy so it reads as
+   * atmosphere rather than a distraction. Scoped to this combined
+   * selector so plain .angular-bg (login, register, international,
+   * profile pages) is untouched.
+   */
+  .hero-photo-bg.angular-bg::before {
+    background-image: linear-gradient(
+        180deg,
+        rgba(15, 23, 42, 0.82) 0%,
+        rgba(15, 23, 42, 0.88) 55%,
+        rgba(15, 23, 42, 0.96) 100%
+      ),
+      linear-gradient(135deg, rgba(212, 160, 23, 0.12) 0%, transparent 45%),
+      linear-gradient(-45deg, rgba(216, 200, 157, 0.08) 0%, transparent 40%),
+      repeating-linear-gradient(
+        115deg,
+        rgba(212, 160, 23, 0.04) 0px,
+        rgba(212, 160, 23, 0.04) 2px,
+        transparent 2px,
+        transparent 80px
+      ),
+      url("/images/hero-training.jpg");
+    background-size: auto, auto, auto, auto, cover;
+    background-position: center, center, center, center, center 32%;
+    background-repeat: no-repeat, no-repeat, no-repeat, repeat, no-repeat;
+  }
+
+  /*
+   * Secondary-page photo banners (Browse, Coaches, Leaderboard, International,
+   * Build Profile). Same navy-scrim recipe as .hero-photo-bg, but driven by
+   * --photo-url/--photo-position/--photo-tint-1/--photo-tint-2 custom
+   * properties set inline per page, so one class covers all five instead of
+   * duplicating the gradient stack five times.
+   */
+  .photo-bg.angular-bg::before {
+    background-image: linear-gradient(
+        180deg,
+        rgba(15, 23, 42, 0.84) 0%,
+        rgba(15, 23, 42, 0.9) 55%,
+        rgba(15, 23, 42, 0.97) 100%
+      ),
+      var(--photo-tint-1, linear-gradient(135deg, rgba(212, 160, 23, 0.12) 0%, transparent 45%)),
+      var(--photo-tint-2, linear-gradient(-45deg, rgba(216, 200, 157, 0.08) 0%, transparent 40%)),
+      repeating-linear-gradient(
+        115deg,
+        rgba(212, 160, 23, 0.04) 0px,
+        rgba(212, 160, 23, 0.04) 2px,
+        transparent 2px,
+        transparent 80px
+      ),
+      var(--photo-url);
+    background-size: auto, auto, auto, auto, cover;
+    background-position: center, center, center, center, var(--photo-position, center);
+    background-repeat: no-repeat, no-repeat, no-repeat, repeat, no-repeat;
+  }
+
+  .card-gradient {
+    background: linear-gradient(160deg, #141c33 0%, #0f172a 70%, #0a1224 100%);
+  }
+
+  /*
+   * Ambient glow for cards/panels site-wide, layered on top of the
+   * existing shadow-xl/shadow-black utility (kept for depth) rather than
+   * replacing it. Soft electric-blue by default since that's the primary
+   * brand hue; brightens slightly on hover so surfaces feel alive without
+   * competing with per-sport accent borders that already exist on some
+   * cards.
+   */
+  .card-glow {
+    transition: box-shadow 200ms ease, border-color 200ms ease;
+    box-shadow:
+      0 20px 25px -5px rgba(0, 0, 0, 0.2),
+      0 8px 10px -6px rgba(0, 0, 0, 0.2),
+      0 0 24px -4px rgba(212, 160, 23, 0.18);
+  }
+
+  .card-glow:hover {
+    box-shadow:
+      0 20px 25px -5px rgba(0, 0, 0, 0.2),
+      0 8px 10px -6px rgba(0, 0, 0, 0.2),
+      0 0 32px -4px rgba(212, 160, 23, 0.32);
+    border-color: rgba(216, 200, 157, 0.25);
+  }
+
+  /*
+   * Primary CTA treatment — a richer two-stop gradient plus a soft
+   * ambient glow (vs. the old flat fill) so the main action reads as
+   * premium/native rather than a plain web button. Stays within the
+   * blue family (electric -> indigo) so it doesn't introduce a new
+   * brand hue elsewhere in the app.
+   */
+  .btn-glow {
+    background-image: linear-gradient(135deg, #D4A017 0%, #DC2626 100%);
+    box-shadow:
+      0 8px 28px -8px rgba(220, 38, 38, 0.5),
+      0 2px 10px rgba(212, 160, 23, 0.3);
+    transition:
+      transform 150ms ease,
+      box-shadow 150ms ease,
+      background-position 150ms ease;
+  }
+
+  .btn-glow:hover {
+    box-shadow:
+      0 12px 34px -6px rgba(220, 38, 38, 0.6),
+      0 4px 14px rgba(212, 160, 23, 0.4);
+    transform: translateY(-1px);
+  }
+
+  .btn-glow:active {
+    transform: translateY(0);
+  }
+
+  /* Tertiary flare variant of the same glow-button treatment. */
+  .btn-glow-flare {
+    background-image: linear-gradient(135deg, #8b5cf6 0%, #ec4899 100%);
+    box-shadow:
+      0 8px 26px -8px rgba(236, 72, 153, 0.5),
+      0 2px 10px rgba(139, 92, 246, 0.3);
+    transition:
+      transform 150ms ease,
+      box-shadow 150ms ease,
+      background-position 150ms ease;
+  }
+
+  .btn-glow-flare:hover {
+    box-shadow:
+      0 12px 32px -6px rgba(236, 72, 153, 0.6),
+      0 4px 14px rgba(139, 92, 246, 0.4);
+    transform: translateY(-1px);
+  }
+
+  .btn-glow-flare:active {
+    transform: translateY(0);
+  }
+
+  .text-gradient {
+    background: linear-gradient(90deg, #ffffff 0%, #D8C89D 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /*
+   * Tertiary accent -- violet -> pink, used sparingly (Elite tier badge,
+   * one headline per secondary page, a single homepage stat) so it reads
+   * as a rare/premium signal rather than a second brand color competing
+   * with the primary electric-blue identity.
+   */
+  .text-gradient-flare {
+    background: linear-gradient(90deg, #8b5cf6 0%, #ec4899 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Ombre orange -- pairs with the hero live pill's orange/flame accent. */
+  .text-gradient-orange {
+    background: linear-gradient(90deg, #fb923c 0%, #fbbf24 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /*
+   * Shared "Elite badge" pill treatment -- rounded-full border + tinted
+   * gradient fill -- reused wherever a piece of text (not just a small
+   * tier badge) should carry the same premium-pill look, e.g. the nav
+   * "see an example" link and an athlete's name heading. Flat (no glow)
+   * by design -- only the hero's live pill gets the glow variant below.
+   */
+  .pill-flare {
+    border-radius: 9999px;
+    border: 1px solid rgba(232, 121, 249, 0.5);
+    background: linear-gradient(90deg, rgba(139, 92, 246, 0.15), rgba(236, 72, 153, 0.15));
+  }
+
+  .pill-orange {
+    border-radius: 9999px;
+    border: 1px solid rgba(251, 146, 60, 0.5);
+    background: linear-gradient(90deg, rgba(249, 115, 22, 0.15), rgba(245, 158, 11, 0.15));
+  }
+
+  /* Glow variant, reserved for the homepage hero's live pill only. */
+  .pill-glow-orange {
+    border-radius: 9999px;
+    border: 1px solid rgba(251, 146, 60, 0.5);
+    background: linear-gradient(90deg, rgba(249, 115, 22, 0.15), rgba(245, 158, 11, 0.15));
+    box-shadow: 0 0 18px rgba(251, 146, 60, 0.35);
+    transition: box-shadow 200ms ease;
+  }
+
+  .pill-glow-orange:hover {
+    box-shadow: 0 0 24px rgba(251, 146, 60, 0.45);
+  }
+
+  /*
+   * Statline Legend -- the tier above Elite, awarded for multi-sport
+   * profiles. A holographic-foil gradient (gold -> violet -> sky-blue)
+   * reads as a clear step up from Elite's flat violet/pink, echoing the
+   * "holo rare" trading-card look. Static utilities for general reuse;
+   * .pill-glow-legend below adds the shimmer + multi-color glow reserved
+   * for the tier badge and player card, the two "wow" surfaces.
+   */
+  .text-gradient-legend {
+    background: linear-gradient(110deg, #fbbf24 0%, #8b5cf6 50%, #38bdf8 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .pill-legend {
+    border-radius: 9999px;
+    border: 1px solid rgba(251, 191, 36, 0.5);
+    background: linear-gradient(
+      110deg,
+      rgba(251, 191, 36, 0.18),
+      rgba(139, 92, 246, 0.18),
+      rgba(56, 189, 248, 0.18)
+    );
+  }
+
+  .pill-glow-legend {
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    background-image: linear-gradient(110deg, #fbbf24, #8b5cf6, #38bdf8, #fbbf24);
+    background-size: 300% 100%;
+    color: #fff;
+    box-shadow:
+      0 0 10px rgba(251, 191, 36, 0.5),
+      0 0 16px rgba(139, 92, 246, 0.5),
+      0 0 10px rgba(56, 189, 248, 0.5);
+    animation: holo-shift 6s linear infinite;
+  }
+}
+
+@keyframes holo-shift {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 300% 50%;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0f172a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1b2542;
+  border-radius: 999px;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes toast-out {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+
+.animate-toast-in {
+  animation: toast-in 180ms ease-out;
+}
+
+.animate-toast-out {
+  animation: toast-out 180ms ease-in forwards;
+}
+
+@keyframes preview-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(212, 160, 23, 0.5);
+  }
+  100% {
+    box-shadow: 0 0 0 10px rgba(212, 160, 23, 0);
+  }
+}
+
+.animate-preview-pulse {
+  animation: preview-pulse 700ms ease-out;
+}
+
+@keyframes fade-in-out {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  15%,
+  85% {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in-out {
+  animation: fade-in-out 1.4s ease-in-out;
+}
+
+@keyframes flame-flicker {
+  0%,
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  25% {
+    transform: scale(1.1) rotate(-3deg);
+    opacity: 0.85;
+  }
+  50% {
+    transform: scale(0.94) rotate(2deg);
+    opacity: 1;
+  }
+  75% {
+    transform: scale(1.06) rotate(-1deg);
+    opacity: 0.9;
+  }
+}
+
+/*
+ * "Video overlay" treatment for the Live Activity section background: same
+ * navy-scrim-plus-electric-blue-streaks recipe as .hero-photo-bg (see above),
+ * just applied over a looping video instead of a static photo, so it reads
+ * as the same visual family as the homepage hero rather than a one-off.
+ */
+.video-overlay-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.video-overlay-bg video {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  filter: grayscale(0.2) saturate(1.1) contrast(1.05);
+}
+
+.video-overlay-tint {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(15, 23, 42, 0.68) 0%,
+      rgba(15, 23, 42, 0.74) 55%,
+      rgba(15, 23, 42, 0.88) 100%
+    ),
+    linear-gradient(135deg, rgba(212, 160, 23, 0.35) 0%, transparent 50%),
+    linear-gradient(-45deg, rgba(216, 200, 157, 0.22) 0%, transparent 45%),
+    repeating-linear-gradient(
+      115deg,
+      rgba(212, 160, 23, 0.06) 0px,
+      rgba(212, 160, 23, 0.06) 2px,
+      transparent 2px,
+      transparent 80px
+    );
+}
+
+.video-overlay-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(2, 6, 23, 0.1) 0%,
+    rgba(2, 6, 23, 0.25) 55%,
+    rgba(2, 6, 23, 0.55) 100%
+  );
+}
+
+.animate-flame-flicker {
+  animation: flame-flicker 1.4s ease-in-out infinite;
+  transform-origin: 50% 90%;
+}
