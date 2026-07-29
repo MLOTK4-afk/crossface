@@ -11,8 +11,8 @@ interface LogoProps {
 }
 
 /**
- * Renders the Snapdown mark: the Scout Owl icon (scope-reticle eyes) beside
- * the SNAPDOWN wordmark in the stencil font + gold-to-red gradient.
+ * Renders the Snapdown mark: the owl icon beside the SNAPDOWN wordmark in
+ * the stencil font + gold-to-red gradient.
  */
 export function Logo({
   height = 36,
@@ -29,7 +29,6 @@ export function Logo({
           width={height}
           height={height}
           priority={priority}
-          className="rounded-md"
         />
         <span
           className="font-stencil block uppercase leading-none"

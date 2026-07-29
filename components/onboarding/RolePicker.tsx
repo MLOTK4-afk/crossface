@@ -63,10 +63,9 @@ export function RolePicker() {
         <Image
           src="/logos/snapdown-logo.png"
           alt="Snapdown"
-          width={64}
-          height={64}
+          width={140}
+          height={140}
           priority
-          className="rounded-xl"
         />
 
         <h1 className="mt-8 font-heading text-4xl uppercase leading-[1.05] text-white sm:text-5xl">
