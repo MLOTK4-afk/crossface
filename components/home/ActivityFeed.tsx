@@ -1,5 +1,4 @@
 import { EmptyState } from "@/components/ui/EmptyState";
-import { ActivityVideoBackground } from "@/components/home/ActivityVideoBackground";
 
 export interface ActivityItem {
   id: string;
@@ -21,13 +20,7 @@ function timeAgo(ts: string): string {
 export function ActivityFeed({ items }: { items: ActivityItem[] }) {
   return (
     <section className="relative overflow-hidden border-t border-white/10">
-      <div className="video-overlay-bg">
-        <ActivityVideoBackground />
-        <div className="video-overlay-tint" />
-        <div className="video-overlay-scrim" />
-      </div>
-
-      <div className="relative mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <h2 className="text-3xl text-white">Live Activity</h2>
         <p className="mt-1 text-slate-300">
           What&apos;s happening on Snapdown right now.
