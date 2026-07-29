@@ -10,7 +10,7 @@ import { getAthleteTier } from "@/lib/tier";
 export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
-  title: "Shared Scouting Board | Snapdown",
+  title: "Shared Scouting Board | Crossface",
 };
 
 export default async function SharedBoardPage({

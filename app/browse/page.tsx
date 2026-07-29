@@ -64,7 +64,7 @@ export default function BrowsePage() {
       <PhotoHeader
         eyebrow="The Directory"
         title={<span className="text-gradient-flare">Browse Athletes</span>}
-        subtitle="Search and filter the full Snapdown wrestler directory."
+        subtitle="Search and filter the full Crossface wrestler directory."
         photoUrl="/images/hero-training.jpg"
         photoPosition="center 35%"
       />

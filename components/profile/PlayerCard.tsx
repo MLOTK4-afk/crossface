@@ -6,16 +6,16 @@ import { getAthleteTier } from "@/lib/tier";
 import { TIER_LABEL } from "@/lib/tier";
 import { getSportAccent } from "@/lib/sportTheme";
 
-const CARD_SHARE_ORIGIN = "https://snapdownwrestling.net";
+const CARD_SHARE_ORIGIN = "https://crossfacewrestling.net";
 
 /** Gold -> violet -> sky-blue "holo foil" treatment, reserved for the
- * Snapdown Legend tier so it reads as a clear step up from Elite's flat
+ * Crossface Legend tier so it reads as a clear step up from Elite's flat
  * violet/pink on the exported card. */
 const LEGEND_GRADIENT =
   "linear-gradient(90deg, #FBBF24 0%, #8B5CF6 50%, #38BDF8 100%)";
 
-/** Same violet -> pink gradient as the "New Snapdown athlete" text below,
- * reused on the Snapdown Elite tier pill so the two premium signals match. */
+/** Same violet -> pink gradient as the "New Crossface athlete" text below,
+ * reused on the Crossface Elite tier pill so the two premium signals match. */
 const ELITE_GRADIENT = "linear-gradient(90deg, #8B5CF6 0%, #EC4899 100%)";
 
 /** Cuts long quotes down to a card-friendly length at a word boundary. */
@@ -57,7 +57,7 @@ function ScallopedSealBadge({ size = 18 }: { size?: number }) {
 
 /**
  * Shield-shaped seal (outer ring outline + inner filled shield with an "S"
- * monogram) marking a card as a real, athlete-made Snapdown player card --
+ * monogram) marking a card as a real, athlete-made Crossface player card --
  * distinct from a generic checkmark so it doesn't read as "verified" in the
  * blue-checkmark-on-social-media sense.
  */
@@ -230,7 +230,7 @@ export const PlayerCard = forwardRef<
               color: "#fff",
             }}
           >
-            Snapdown
+            Crossface
           </span>
         </div>
         <span style={tierPillStyle}>{TIER_LABEL[tier]}</span>
@@ -251,7 +251,7 @@ export const PlayerCard = forwardRef<
             color: "transparent",
           }}
         >
-          New Snapdown athlete
+          New Crossface athlete
         </span>
         <VerificationBadge size={22} />
       </div>
@@ -401,7 +401,7 @@ export const PlayerCard = forwardRef<
           justifyContent: "space-between",
         }}
       >
-        <span style={{ fontSize: 10, color: "#475569" }}>Built with Snapdown</span>
+        <span style={{ fontSize: 10, color: "#475569" }}>Built with Crossface</span>
         <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -412,7 +412,7 @@ export const PlayerCard = forwardRef<
             style={{ borderRadius: 4, backgroundColor: "#fff", padding: 2 }}
           />
           <span style={{ fontSize: 15, fontWeight: 700, color: "#fff" }}>
-            snapdownwrestling.net
+            crossfacewrestling.net
           </span>
         </div>
       </div>

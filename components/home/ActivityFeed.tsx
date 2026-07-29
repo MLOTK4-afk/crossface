@@ -23,14 +23,14 @@ export function ActivityFeed({ items }: { items: ActivityItem[] }) {
       <div className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <h2 className="text-3xl text-white">Live Activity</h2>
         <p className="mt-1 text-slate-300">
-          What&apos;s happening on Snapdown right now.
+          What&apos;s happening on Crossface right now.
         </p>
 
         {items.length === 0 ? (
           <div className="mt-6">
             <EmptyState
               title="No activity yet"
-              description="Once athletes and coaches start using Snapdown, their activity will show up here."
+              description="Once athletes and coaches start using Crossface, their activity will show up here."
             />
           </div>
         ) : (

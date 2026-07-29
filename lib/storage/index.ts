@@ -29,7 +29,7 @@ import type { MomentumLabel } from "@/lib/momentum";
  * since admin credentials never need to leave the server and gate exactly
  * one page (/admin).
  */
-export interface SnapdownStore {
+export interface CrossfaceStore {
   listAthletes(): Promise<AthleteProfile[]>;
   getAthlete(id: string): Promise<AthleteProfile | null>;
   createAthlete(
@@ -322,7 +322,7 @@ function rowToEvent(row: any): AnalyticsEvent {
   return { type: row.type, ts: row.ts, meta: row.meta ?? undefined };
 }
 
-class SupabaseStore implements SnapdownStore {
+class SupabaseStore implements CrossfaceStore {
   // -- athletes --------------------------------------------------------
 
   async listAthletes(): Promise<AthleteProfile[]> {
@@ -1173,4 +1173,4 @@ class SupabaseStore implements SnapdownStore {
   }
 }
 
-export const store: SnapdownStore = new SupabaseStore();
+export const store: CrossfaceStore = new SupabaseStore();

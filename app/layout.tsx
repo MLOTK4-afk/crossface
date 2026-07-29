@@ -15,9 +15,9 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXTAUTH_URL ?? "http://localhost:3000"),
-  title: "Snapdown | New Jersey's Home for Wrestling",
+  title: "Crossface | New Jersey's Home for Wrestling",
   description:
-    "Snapdown is the recruiting platform built for New Jersey and East Coast wrestling — auto-tagged match film, real stats, and head-to-head scouting for every wrestler.",
+    "Crossface is the recruiting platform built for New Jersey and East Coast wrestling — auto-tagged match film, real stats, and head-to-head scouting for every wrestler.",
   manifest: "/manifest.json",
   icons: {
     icon: [

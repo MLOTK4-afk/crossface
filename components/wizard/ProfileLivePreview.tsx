@@ -20,7 +20,7 @@ export interface LivePreviewData {
   combineFilled: boolean;
   endorsementQuote: string;
   /** Sport names only, from the Additional Sports editor -- enough for the
-   * live preview to flip to Snapdown Legend as soon as a 2nd sport is added. */
+   * live preview to flip to Crossface Legend as soon as a 2nd sport is added. */
   additionalSports: string[];
 }
 

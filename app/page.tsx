@@ -44,7 +44,7 @@ export default async function HomePage() {
     }
     return {
       id: `${event.type}-${idx}-${event.ts}`,
-      text: "A new user joined Snapdown",
+      text: "A new user joined Crossface",
       ts: event.ts,
     };
   });

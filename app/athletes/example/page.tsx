@@ -6,9 +6,9 @@ import { calculateFitScore } from "@/lib/fitScore";
 import { store } from "@/lib/storage";
 
 export const metadata: Metadata = {
-  title: "Example Profile | Snapdown",
+  title: "Example Profile | Crossface",
   description:
-    "A sample Snapdown athlete profile showing what a completed, polished profile looks like.",
+    "A sample Crossface athlete profile showing what a completed, polished profile looks like.",
 };
 
 export const dynamic = "force-dynamic";

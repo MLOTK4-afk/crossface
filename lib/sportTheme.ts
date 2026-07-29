@@ -1,5 +1,5 @@
 /**
- * Snapdown is wrestling-only, so there's just one accent to carry across
+ * Crossface is wrestling-only, so there's just one accent to carry across
  * every athlete's profile page (accent border, highlight-film button,
  * banner scrim tint) -- the brand gold, matching the rest of the site.
  * Kept as a lookup (rather than a bare constant) so call sites that pass

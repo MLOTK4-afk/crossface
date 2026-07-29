@@ -1,1 +1,1 @@
-export const DEVICE_ID_COOKIE = "snapdown_device_id";
+export const DEVICE_ID_COOKIE = "crossface_device_id";

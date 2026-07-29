@@ -4,7 +4,7 @@ export function ExampleBanner() {
       <span className="font-heading uppercase tracking-wide text-amber-400">
         Example Profile
       </span>{" "}
-      — this is a sample to show what a strong Snapdown profile looks like.
+      — this is a sample to show what a strong Crossface profile looks like.
       It is not a real athlete.
     </div>
   );

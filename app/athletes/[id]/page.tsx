@@ -45,7 +45,7 @@ export async function generateMetadata({
   params: { id: string };
 }): Promise<Metadata> {
   const athlete = await store.getAthlete(params.id);
-  return { title: athlete ? `${athlete.name} | Snapdown` : "Snapdown" };
+  return { title: athlete ? `${athlete.name} | Crossface` : "Crossface" };
 }
 
 export default async function AthletePage({
@@ -146,7 +146,7 @@ export default async function AthletePage({
         <Card className="mt-6 p-6">
           <h2 className="font-heading text-lg text-white">Activity Log</h2>
           <p className="mt-1 text-xs text-slate-500">
-            Only visible to you and Snapdown admins.
+            Only visible to you and Crossface admins.
           </p>
           <div className="mt-4">
             <ActivityTimeline events={activity} />

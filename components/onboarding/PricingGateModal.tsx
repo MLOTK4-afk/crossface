@@ -22,13 +22,13 @@ export function PricingGateModal({ onPaid }: { onPaid: () => void }) {
     <Modal onClose={handleCancel} labelledBy="pricing-gate-title">
       <Card className="w-full max-w-sm p-8">
         <h2 id="pricing-gate-title" className="text-2xl text-white">
-          Build Your Snapdown Profile
+          Build Your Crossface Profile
         </h2>
         <p className="mt-4 font-heading text-4xl text-electric-500">
           ${SITE_PRICE.toFixed(2)}
         </p>
         <p className="mt-3 text-sm text-slate-400">
-          Includes your published Snapdown profile, an AI-generated scouting
+          Includes your published Crossface profile, an AI-generated scouting
           report, and access to the coach directory and leaderboard.
         </p>
         <Button className="mt-6 w-full" onClick={handlePay}>

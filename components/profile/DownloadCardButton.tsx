@@ -42,8 +42,8 @@ export function DownloadCardButton({
       });
       const link = document.createElement("a");
       const fileName = athlete.name
-        ? `${athlete.name.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-")}-snapdown-card.png`
-        : "snapdown-card.png";
+        ? `${athlete.name.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-")}-crossface-card.png`
+        : "crossface-card.png";
       link.download = fileName;
       link.href = dataUrl;
       link.click();
@@ -62,7 +62,7 @@ export function DownloadCardButton({
       <Modal open={open} onClose={() => setOpen(false)} labelledBy="player-card-title">
         <div className="w-full max-w-md rounded-2xl bg-navy-900 border border-white/10 p-6">
           <h2 id="player-card-title" className="text-lg font-semibold text-white">
-            Your Snapdown Player Card
+            Your Crossface Player Card
           </h2>
           <p className="mt-1 text-sm text-skyline-300">
             Download it and post straight to your Instagram.

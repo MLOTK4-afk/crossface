@@ -44,7 +44,7 @@ export function LeaderboardContent() {
       <PhotoHeader
         eyebrow="Rankings"
         title={<span className="text-gradient-flare">Leaderboard</span>}
-        subtitle="Ranked by Snapdown tier and profile views."
+        subtitle="Ranked by Crossface tier and profile views."
         photoUrl="/images/hero-training.jpg"
         photoPosition="center 55%"
       />

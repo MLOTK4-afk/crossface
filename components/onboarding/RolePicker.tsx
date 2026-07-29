@@ -56,13 +56,13 @@ export function RolePicker() {
     <div
       role="dialog"
       aria-modal="true"
-      aria-label="Choose how you'll use Snapdown"
+      aria-label="Choose how you'll use Crossface"
       className="fixed inset-0 z-[200] flex items-center justify-center overflow-y-auto bg-navy-900 px-4 py-10"
     >
       <div className="mx-auto flex w-full max-w-2xl flex-col items-center text-center">
         <Image
-          src="/logos/snapdown-logo.png"
-          alt="Snapdown"
+          src="/logos/crossface-logo.png"
+          alt="Crossface"
           width={140}
           height={140}
           priority
@@ -80,7 +80,7 @@ export function RolePicker() {
               color: "transparent",
             }}
           >
-            Snapdown
+            Crossface
           </span>
         </h1>
 

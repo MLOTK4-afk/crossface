@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/Button";
 
-const DISMISS_KEY = "snapdown-pwa-banner-dismissed";
+const DISMISS_KEY = "crossface-pwa-banner-dismissed";
 
 interface BeforeInstallPromptEvent extends Event {
   prompt: () => Promise<void>;
@@ -87,7 +87,7 @@ export function PwaInstallBanner() {
         {showIosInstructions ? (
           <div>
             <p className="text-sm text-slate-200">
-              To install Snapdown: tap the Share icon in Safari, then select
+              To install Crossface: tap the Share icon in Safari, then select
               &ldquo;Add to Home Screen.&rdquo;
             </p>
             <button
@@ -102,10 +102,10 @@ export function PwaInstallBanner() {
           <div className="flex items-center gap-3">
             <div className="flex-1">
               <p className="text-sm font-semibold text-white">
-                Install Snapdown
+                Install Crossface
               </p>
               <p className="text-xs text-slate-400">
-                Add Snapdown to your home screen for faster access.
+                Add Crossface to your home screen for faster access.
               </p>
             </div>
             <Button variant="primary" size="sm" onClick={handleInstall}>

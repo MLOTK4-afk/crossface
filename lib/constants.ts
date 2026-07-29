@@ -23,7 +23,7 @@ export const LEVELS: { value: Level; label: string; blurb: string }[] = [
   },
 ];
 
-// Snapdown is wrestling-only -- a single-entry list keeps every place that
+// Crossface is wrestling-only -- a single-entry list keeps every place that
 // maps over SPORTS (wizard, leaderboard tabs) working without restructuring
 // their UI, while making Wrestling the only possible value.
 export const SPORTS = ["Wrestling"];

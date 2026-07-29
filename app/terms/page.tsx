@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { LegalLayout, LegalSection } from "@/components/legal/LegalLayout";
 
 export const metadata: Metadata = {
-  title: "Terms of Service | Snapdown",
+  title: "Terms of Service | Crossface",
 };
 
 export default function TermsPage() {
@@ -10,7 +10,7 @@ export default function TermsPage() {
     <LegalLayout title="Terms of Service" lastUpdated="June 2026">
       <LegalSection title="Acceptance of Terms">
         <p>
-          By creating an account or using Snapdown, you agree to these
+          By creating an account or using Crossface, you agree to these
           Terms of Service. If you are under 18, a parent or guardian should
           review these terms with you before you use the platform.
         </p>
@@ -27,17 +27,17 @@ export default function TermsPage() {
 
       <LegalSection title="User-Submitted Content">
         <p>
-          You retain ownership of the content you submit to Snapdown —
+          You retain ownership of the content you submit to Crossface —
           stats, achievements, video links, and anything else on your
           profile. If you choose to publish your profile, you grant
-          Snapdown a license to display that content on the platform for
+          Crossface a license to display that content on the platform for
           the purpose of recruiting discovery.
         </p>
       </LegalSection>
 
       <LegalSection title="No Guarantee of Recruiting Outcomes">
         <p>
-          Snapdown is a tool to help athletes present their information and
+          Crossface is a tool to help athletes present their information and
           help coaches discover prospects. It is not a guarantee that any
           coach will contact you, offer you a spot, or otherwise recruit
           you. AI-generated summaries may contain errors, and self-reported
@@ -57,9 +57,9 @@ export default function TermsPage() {
 
       <LegalSection title="Disclaimer and Limitation of Liability">
         <p>
-          Snapdown is provided &ldquo;as is&rdquo; without warranties of any
+          Crossface is provided &ldquo;as is&rdquo; without warranties of any
           kind, express or implied. To the fullest extent permitted by law,
-          Snapdown is not liable for any damages arising from your use of, or
+          Crossface is not liable for any damages arising from your use of, or
           inability to use, the platform.
         </p>
       </LegalSection>
@@ -67,7 +67,7 @@ export default function TermsPage() {
       <LegalSection title="Changes to These Terms">
         <p>
           We may update these Terms of Service at any time. Continued use of
-          Snapdown after a change is posted constitutes acceptance of the
+          Crossface after a change is posted constitutes acceptance of the
           updated terms.
         </p>
       </LegalSection>

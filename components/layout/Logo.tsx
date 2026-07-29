@@ -11,7 +11,7 @@ interface LogoProps {
 }
 
 /**
- * Renders the Snapdown mark: the owl icon beside the SNAPDOWN wordmark in
+ * Renders the Crossface mark: the owl icon beside the CROSSFACE wordmark in
  * the stencil font + gold-to-red gradient.
  */
 export function Logo({
@@ -24,8 +24,8 @@ export function Logo({
     <Link href="/" className={className}>
       <span className="flex items-center gap-2">
         <Image
-          src="/logos/snapdown-logo.png"
-          alt="Snapdown"
+          src="/logos/crossface-logo.png"
+          alt="Crossface"
           width={height}
           height={height}
           priority={priority}
@@ -41,7 +41,7 @@ export function Logo({
             color: "transparent",
           }}
         >
-          Snapdown
+          Crossface
         </span>
       </span>
       {withTagline && (

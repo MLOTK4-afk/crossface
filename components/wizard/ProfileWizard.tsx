@@ -496,7 +496,7 @@ export function ProfileWizard() {
                 <Label>Additional Sports (up to 2 more)</Label>
                 <p className="mb-3 text-xs text-slate-500">
                   Play more than one sport? Add up to 2 more below — profiles
-                  with more than one sport earn the Snapdown Legend tier.
+                  with more than one sport earn the Crossface Legend tier.
                 </p>
                 <AdditionalSportsEditor
                   sports={additionalSports}

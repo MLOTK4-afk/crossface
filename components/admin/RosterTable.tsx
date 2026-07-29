@@ -169,7 +169,7 @@ export function RosterTable({ rows }: { rows: RosterRow[] }) {
 
   function exportCsv() {
     const rowsToExport = selected.size > 0 ? sorted.filter((r) => selected.has(r.id)) : sorted;
-    downloadCsv(toCsv(rowsToExport), "snapdown-roster.csv");
+    downloadCsv(toCsv(rowsToExport), "crossface-roster.csv");
   }
 
   const columns: { key: SortKey; label: string }[] = [

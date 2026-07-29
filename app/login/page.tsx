@@ -38,7 +38,7 @@ export default function LoginPage() {
       <Card className="w-full max-w-md p-8">
         <h1 className="text-3xl">Sign In</h1>
         <p className="mt-1 text-sm text-slate-400">
-          Access your Snapdown profile, boards, and starred athletes.
+          Access your Crossface profile, boards, and starred athletes.
         </p>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">

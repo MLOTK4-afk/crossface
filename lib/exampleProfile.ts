@@ -2,7 +2,7 @@ import type { AthleteProfile } from "@/lib/types";
 
 /**
  * The one hardcoded demo profile used to show visitors what a completed
- * Snapdown profile looks like. This is never written to the JSON store and
+ * Crossface profile looks like. This is never written to the JSON store and
  * never returned by any storage/API call — real listings (browse, trending,
  * spotlight, leaderboard, search) only ever read from the store, so this
  * object can't leak into them by construction. `published: false` and
@@ -33,7 +33,7 @@ export const EXAMPLE_PROFILE: AthleteProfile = {
   // multi-sport tab layout -- its own positions/stats/achievements/Fit
   // Score, distinct from football's -- since this is the flagship demo
   // page new users land on. Paired with the existing coach endorsement
-  // below, this is what genuinely earns Snapdown Legend under the current
+  // below, this is what genuinely earns Crossface Legend under the current
   // tier rule (Elite-level profile + more than one sport), not an override.
   additionalSports: [
     {
@@ -81,7 +81,7 @@ export const EXAMPLE_PROFILE: AthleteProfile = {
   endorsement: {
     name: "Coach T. Hendricks",
     title: "Head Coach, Example High School",
-    quote: "This is what a strong coach endorsement looks like on a Snapdown profile.",
+    quote: "This is what a strong coach endorsement looks like on a Crossface profile.",
   },
   previousSeasonStats: "Junior year: 890 rush yards, 9 TDs, 4.9 YPC",
   targetSchools: ["State University", "Coastal Tech", "Valley College"],

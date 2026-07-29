@@ -7,7 +7,7 @@ import { computeAthleteCompleteness } from "@/lib/completeness";
 import { RosterTable, type RosterRow } from "@/components/admin/RosterTable";
 
 export const metadata: Metadata = {
-  title: "Roster Overview | Snapdown Admin",
+  title: "Roster Overview | Crossface Admin",
 };
 
 export const dynamic = "force-dynamic";
@@ -55,7 +55,7 @@ export default async function AdminRosterPage() {
     <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
       <h1 className="text-4xl text-white">Roster Overview</h1>
       <p className="mt-1 text-slate-400">
-        Every athlete profile on Snapdown, with completion and outreach
+        Every athlete profile on Crossface, with completion and outreach
         status at a glance.
       </p>
       <p className="mt-1 text-xs text-slate-500">

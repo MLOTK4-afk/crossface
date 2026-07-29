@@ -8,7 +8,7 @@ export function TrendingStrip({ athletes }: { athletes: AthleteProfile[] }) {
     <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
       <h2 className="text-3xl text-white">Trending Athletes</h2>
       <p className="mt-1 text-slate-400">
-        The most-viewed profiles on Snapdown right now.
+        The most-viewed profiles on Crossface right now.
       </p>
 
       {athletes.length === 0 ? (

@@ -74,8 +74,8 @@ export const TIER_RANK: Record<Tier, number> = {
 };
 
 export const TIER_LABEL: Record<Tier, string> = {
-  Legend: "Snapdown Legend",
-  Elite: "Snapdown Elite",
+  Legend: "Crossface Legend",
+  Elite: "Crossface Elite",
   Gold: "Gold",
   Silver: "Silver",
   Bronze: "Bronze",

@@ -26,7 +26,7 @@ export default function OpengraphImage() {
             textTransform: "uppercase",
           }}
         >
-          Snapdown
+          Crossface
         </div>
         <div
           style={{

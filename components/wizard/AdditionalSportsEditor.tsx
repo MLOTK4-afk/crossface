@@ -30,7 +30,7 @@ export const EMPTY_ADDITIONAL_SPORT: AdditionalSportDraft = {
  * primary one (3 total) -- each with its own positions/jersey/stats/film,
  * mirroring the primary sport's fields in Step 3. Capped rather than an
  * unbounded ListEditor-style "+ Add another" since a 4th+ sport isn't
- * supported by the Snapdown Legend tier or the player card layout.
+ * supported by the Crossface Legend tier or the player card layout.
  */
 export function AdditionalSportsEditor({
   sports,

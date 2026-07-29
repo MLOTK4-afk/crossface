@@ -16,7 +16,7 @@ export type PriorMatch = {
  * Concept preview -- checks a typed name against this athlete's own sample
  * match log (see SAMPLE_RECENT on the athlete page). The real feature lets
  * any wrestler submit their full record and opponents faced, so this
- * search would work across every profile on Snapdown, not just this one.
+ * search would work across every profile on Crossface, not just this one.
  */
 export function HeadToHead({ matches }: { matches: PriorMatch[] }) {
   const [query, setQuery] = useState("");
@@ -70,7 +70,7 @@ export function HeadToHead({ matches }: { matches: PriorMatch[] }) {
         * Checked here against this wrestler&apos;s sample match log. The
         real feature lets any wrestler submit their full record and the
         opponents they&apos;ve faced, so this search works across every
-        profile on Snapdown.
+        profile on Crossface.
       </p>
     </Card>
   );

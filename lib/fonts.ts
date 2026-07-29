@@ -10,7 +10,7 @@ export const bigShoulders = Big_Shoulders_Text({
   display: "swap",
 });
 
-// Stenciled cut used only for the SNAPDOWN wordmark (nav, footer, hero) --
+// Stenciled cut used only for the CROSSFACE wordmark (nav, footer, hero) --
 // hollow, gym-equipment letterforms give the brand its own identity apart
 // from the body/heading font above.
 export const bigShouldersStencil = Big_Shoulders_Stencil_Text({

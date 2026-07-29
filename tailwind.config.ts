@@ -16,7 +16,7 @@ const config: Config = {
           700: "#1B2542",
         },
         // "electric"/"skyline" keep their original token names (many
-        // components already reference them) but carry Snapdown's gold/red
+        // components already reference them) but carry Crossface's gold/red
         // wrestling palette instead of Statline's blue -- repointing the
         // values here re-themes the whole site without touching every file.
         electric: {

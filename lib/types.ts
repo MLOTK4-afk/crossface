@@ -4,8 +4,8 @@ export type Division = "D1" | "D2" | "D3" | "NAIA";
 
 /**
  * Deterministic, completeness/engagement-based tier — computed by
- * lib/tier.ts, not stored. "Elite" displays as "Snapdown Elite" and
- * "Legend" displays as "Snapdown Legend".
+ * lib/tier.ts, not stored. "Elite" displays as "Crossface Elite" and
+ * "Legend" displays as "Crossface Legend".
  */
 export type Tier = "Bronze" | "Silver" | "Gold" | "Elite" | "Legend";
 
@@ -94,7 +94,7 @@ export interface AthleteProfile {
   team?: string;
   /** Combine/testing numbers, rendered the same way as AI stat cards. */
   combine?: StatCard[];
-  /** True only if a Snapdown admin has verified the combine numbers. */
+  /** True only if a Crossface admin has verified the combine numbers. */
   combineVerified?: boolean;
   endorsement?: {
     name: string;
@@ -109,7 +109,7 @@ export interface AthleteProfile {
   viewCount?: number;
   /**
    * Marks the single hardcoded demo profile used to show visitors what a
-   * completed Snapdown profile looks like. Never set by real data paths —
+   * completed Crossface profile looks like. Never set by real data paths —
    * the example profile is never written to the store, so this flag is
    * mostly a belt-and-suspenders guard for any code that merges profile
    * lists together.

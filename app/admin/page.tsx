@@ -7,7 +7,7 @@ import { store } from "@/lib/storage";
 import { StatTile } from "@/components/admin/StatTile";
 
 export const metadata: Metadata = {
-  title: "Admin | Snapdown",
+  title: "Admin | Crossface",
 };
 
 export const dynamic = "force-dynamic";
@@ -44,7 +44,7 @@ export default async function AdminPage() {
         <div>
           <h1 className="text-4xl text-white">Admin Analytics</h1>
           <p className="mt-1 text-slate-400">
-            Platform-wide activity across Snapdown.
+            Platform-wide activity across Crossface.
           </p>
         </div>
         <div className="flex flex-wrap gap-2">

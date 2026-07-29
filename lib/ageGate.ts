@@ -1,4 +1,4 @@
-const AGE_GATE_KEY = "snapdown-age-verified";
+const AGE_GATE_KEY = "crossface-age-verified";
 
 export function hasAgeVerified(): boolean {
   if (typeof window === "undefined") return false;

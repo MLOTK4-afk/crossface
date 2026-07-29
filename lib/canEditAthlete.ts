@@ -4,7 +4,7 @@ import { authOptions } from "@/lib/auth";
 /**
  * Shared by every athlete-mutating API route (PATCH/DELETE, banner upload):
  * either the caller's anonymous device token matches the profile's owner
- * token, or they're signed in as a Snapdown admin.
+ * token, or they're signed in as a Crossface admin.
  */
 export async function canEditAthlete(
   ownerToken: string | null,

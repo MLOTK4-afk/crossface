@@ -4,7 +4,7 @@ import { EntryGates } from "@/components/onboarding/EntryGates";
 import { PhotoHeader } from "@/components/ui/PhotoHeader";
 
 export const metadata: Metadata = {
-  title: "Build Your Profile | Snapdown",
+  title: "Build Your Profile | Crossface",
 };
 
 export default function BuildProfilePage() {

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { LegalLayout, LegalSection } from "@/components/legal/LegalLayout";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Snapdown",
+  title: "Privacy Policy | Crossface",
 };
 
 export default function PrivacyPage() {
@@ -10,14 +10,14 @@ export default function PrivacyPage() {
     <LegalLayout title="Privacy Policy" lastUpdated="June 2026">
       <LegalSection title="Information We Collect">
         <p>
-          When you create a Snapdown account, we collect the email address
+          When you create a Crossface account, we collect the email address
           you sign up with. When you build an athlete profile, we collect the
           information you choose to submit — name, school or team, stats,
           achievements, contact information, and highlight video links.
         </p>
         <p>
           For coach accounts, we store your scouting activity within
-          Snapdown: athletes you&apos;ve starred, the boards you create, and
+          Crossface: athletes you&apos;ve starred, the boards you create, and
           any notes you write about an athlete. That activity and those notes
           are visible only to you — other coaches and athletes cannot see
           them.
@@ -26,7 +26,7 @@ export default function PrivacyPage() {
 
       <LegalSection title="Information About Minors">
         <p>
-          Snapdown serves student athletes, including users under the age of
+          Crossface serves student athletes, including users under the age of
           18. We do not knowingly collect personal information from children
           under 13 without verifiable parental consent. If you are a parent
           or guardian and believe your child under 13 has created an account
@@ -52,7 +52,7 @@ export default function PrivacyPage() {
           content may contain inaccuracies and should not be treated as a
           guarantee of athletic ability or of any recruiting outcome.
           Self-reported stats, achievements, and combine numbers are not
-          independently verified by Snapdown unless a profile explicitly
+          independently verified by Crossface unless a profile explicitly
           says otherwise.
         </p>
       </LegalSection>
@@ -60,7 +60,7 @@ export default function PrivacyPage() {
       <LegalSection title="Data Storage and Security">
         <p>
           We take reasonable technical and organizational measures to
-          protect the information stored on Snapdown. No method of
+          protect the information stored on Crossface. No method of
           transmission or storage is completely secure, and we cannot
           guarantee absolute security of your data.
         </p>
@@ -68,7 +68,7 @@ export default function PrivacyPage() {
 
       <LegalSection title="Your Choices">
         <p>
-          Every Snapdown profile is listed in the public directory so
+          Every Crossface profile is listed in the public directory so
           coaches can find it — there is no private/unlisted option. You can
           request deletion of your account and associated data at any time
           by contacting us.
