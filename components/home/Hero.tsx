@@ -55,7 +55,7 @@ export function Hero() {
 
       <div className="relative mx-auto max-w-4xl text-center">
         <div className="hero-logo flex justify-center">
-          <Logo height={80} stacked />
+          <Logo height={140} stacked />
         </div>
         <div className="hero-live-pill mt-6 flex justify-center">
           <span className="pill-glow-orange inline-flex items-center gap-2 px-4 py-1.5">
