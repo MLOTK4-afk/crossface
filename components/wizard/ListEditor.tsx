@@ -59,7 +59,7 @@ export function StatRowsEditor({
       {rows.map((row, idx) => (
         <div key={idx} className="flex gap-2">
           <Input
-            placeholder="Stat name (e.g. 40-yard dash)"
+            placeholder="Stat name (e.g. Tech Falls)"
             value={row.label}
             onChange={(e) => {
               const next = [...rows];
@@ -68,7 +68,7 @@ export function StatRowsEditor({
             }}
           />
           <Input
-            placeholder="Value (e.g. 4.5s)"
+            placeholder="Value (e.g. 6)"
             value={row.value}
             onChange={(e) => {
               const next = [...rows];

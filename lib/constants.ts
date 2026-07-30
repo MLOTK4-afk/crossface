@@ -28,15 +28,20 @@ export const LEVELS: { value: Level; label: string; blurb: string }[] = [
 // their UI, while making Wrestling the only possible value.
 export const SPORTS = ["Wrestling"];
 
-export const US_REGIONS = [
-  "Northeast",
-  "Mid-Atlantic",
-  "Southeast",
-  "Midwest",
-  "South",
-  "Southwest",
-  "West",
-  "Pacific Northwest",
+// Crossface is New Jersey/East Coast-focused -- North/Central/South Jersey
+// are the core market (matching how NJ wrestling is regionally understood),
+// with the surrounding East Coast states covering everyone else.
+export const REGIONS = [
+  "North Jersey",
+  "Central Jersey",
+  "South Jersey",
+  "New York",
+  "Pennsylvania",
+  "Connecticut",
+  "Delaware / Maryland",
+  "Virginia / DC",
+  "New England",
+  "Other East Coast",
 ];
 
 export const COUNTRIES = [

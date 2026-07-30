@@ -2,13 +2,9 @@
 
 import { useEffect, useState } from "react";
 import type { AthleteProfile, Level } from "@/lib/types";
-import { LEVELS, SPORTS, US_REGIONS } from "@/lib/constants";
+import { LEVELS, REGIONS } from "@/lib/constants";
 import { StepIndicator } from "@/components/wizard/StepIndicator";
 import { StatRowsEditor, ListEditor } from "@/components/wizard/ListEditor";
-import {
-  AdditionalSportsEditor,
-  type AdditionalSportDraft,
-} from "@/components/wizard/AdditionalSportsEditor";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Input, Label, Select, Textarea, FieldError } from "@/components/ui/Field";
@@ -20,32 +16,36 @@ import { DownloadCardButton } from "@/components/profile/DownloadCardButton";
 import type { FitScoreResult } from "@/lib/fitScore";
 import { cn } from "@/lib/cn";
 
-const STEPS = ["Level", "Sport", "Details"];
+// Crossface is wrestling-only, so there's no sport to pick -- every profile
+// is this one constant, sent as-is in the save payload.
+const SPORT = "Wrestling";
+
+const STEPS = ["Level", "Details"];
+
+const DEFAULT_STAT_ROWS = [
+  { label: "Wins", value: "" },
+  { label: "Losses", value: "" },
+  { label: "Pins", value: "" },
+];
 
 export function ProfileWizard() {
   const [step, setStep] = useState(1);
   const [existingId, setExistingId] = useState<string | null>(null);
   const [level, setLevel] = useState<Level | null>(null);
-  const [sport, setSport] = useState<string | null>(null);
 
   const [name, setName] = useState("");
-  const [jerseyNumber, setJerseyNumber] = useState("");
   const [region, setRegion] = useState("");
   const [gradYear, setGradYear] = useState("");
   const [heightWeight, setHeightWeight] = useState("");
-  const [positions, setPositions] = useState("");
+  const [weightClass, setWeightClass] = useState("");
   const [gpa, setGpa] = useState("");
-  const [statRows, setStatRows] = useState([{ label: "", value: "" }]);
+  const [statRows, setStatRows] = useState(DEFAULT_STAT_ROWS);
   const [highlightUrl, setHighlightUrl] = useState("");
-  const [additionalSports, setAdditionalSports] = useState<
-    AdditionalSportDraft[]
-  >([]);
   const [bannerFile, setBannerFile] = useState<File | null>(null);
   const [bannerPreviewUrl, setBannerPreviewUrl] = useState<string | null>(null);
   const [bannerError, setBannerError] = useState<string | null>(null);
   const [achievements, setAchievements] = useState<string[]>([""]);
   const [previousSeasonStats, setPreviousSeasonStats] = useState("");
-  const [combineRows, setCombineRows] = useState([{ label: "", value: "" }]);
   const [endorsementName, setEndorsementName] = useState("");
   const [endorsementTitle, setEndorsementTitle] = useState("");
   const [endorsementQuote, setEndorsementQuote] = useState("");
@@ -70,40 +70,23 @@ export function ProfileWizard() {
         if (!athlete) return;
         setExistingId(athlete.id);
         setLevel(athlete.level);
-        setSport(athlete.sport);
         setName(athlete.name);
-        setJerseyNumber(athlete.jerseyNumber ?? "");
         setRegion(athlete.region);
         setGradYear(athlete.gradYear ?? "");
         setHeightWeight(athlete.heightWeight ?? "");
-        setPositions(athlete.positions ?? "");
+        setWeightClass(athlete.positions ?? "");
         setGpa(athlete.gpa ?? "");
         const rows = Object.entries(athlete.stats).map(([label, value]) => ({
           label,
           value,
         }));
-        setStatRows(rows.length ? rows : [{ label: "", value: "" }]);
+        setStatRows(rows.length ? rows : DEFAULT_STAT_ROWS);
         setHighlightUrl(athlete.highlightUrl ?? "");
-        setAdditionalSports(
-          (athlete.additionalSports ?? []).map((entry) => ({
-            sport: entry.sport,
-            positions: entry.positions ?? "",
-            jerseyNumber: entry.jerseyNumber ?? "",
-            statRows: Object.entries(entry.stats ?? {}).map(([label, value]) => ({
-              label,
-              value,
-            })),
-            highlightUrl: entry.highlightUrl ?? "",
-            achievements: entry.achievements?.length ? entry.achievements : [""],
-          }))
-        );
         setBannerPreviewUrl(athlete.bannerUrl ?? null);
         setAchievements(
           athlete.achievements.length ? athlete.achievements : [""]
         );
         setPreviousSeasonStats(athlete.previousSeasonStats ?? "");
-        const combine = (athlete.combine ?? []).map((c) => ({ ...c }));
-        setCombineRows(combine.length ? combine : [{ label: "", value: "" }]);
         setEndorsementName(athlete.endorsement?.name ?? "");
         setEndorsementTitle(athlete.endorsement?.title ?? "");
         setEndorsementQuote(athlete.endorsement?.quote ?? "");
@@ -111,18 +94,17 @@ export function ProfileWizard() {
         setContactPhone(athlete.contactPhone ?? "");
         setCommitted(athlete.committed);
         setCommittedSchool(athlete.committedSchool ?? "");
-        // Returning athletes already picked a level/sport when they first
-        // built their profile -- landing back on step 1 reads as "starting
-        // over." Skip straight to Details, where level/sport are now also
-        // editable, instead of walking them through steps 1-2 again.
-        setStep(3);
+        // Returning athletes already picked a level when they first built
+        // their profile -- landing back on step 1 reads as "starting over."
+        // Skip straight to Details, where level is now also editable.
+        setStep(2);
       })
       .catch(() => {});
   }, []);
 
   const completeness = computeCompleteness({
     name,
-    sport,
+    sport: SPORT,
     level,
     region,
     hasStats: statRows.some((r) => r.label.trim() && r.value.trim()),
@@ -167,8 +149,8 @@ export function ProfileWizard() {
 
   async function handleSubmit() {
     setError(null);
-    if (!level || !sport || !name || !region || !contactEmail) {
-      setError("Level, sport, name, region, and contact email are required.");
+    if (!level || !name || !region || !contactEmail) {
+      setError("Level, name, region, and contact email are required.");
       return;
     }
 
@@ -177,9 +159,6 @@ export function ProfileWizard() {
     statRows.forEach((row) => {
       if (row.label.trim()) stats[row.label.trim()] = row.value.trim();
     });
-    const combine = combineRows
-      .filter((row) => row.label.trim())
-      .map((row) => ({ label: row.label.trim(), value: row.value.trim() }));
     const endorsement =
       endorsementName.trim() && endorsementQuote.trim()
         ? {
@@ -189,44 +168,19 @@ export function ProfileWizard() {
           }
         : undefined;
 
-    const additionalSportsPayload = additionalSports
-      .filter((entry) => entry.sport.trim())
-      .map((entry) => {
-        const entryStats: Record<string, string> = {};
-        entry.statRows.forEach((row) => {
-          if (row.label.trim()) entryStats[row.label.trim()] = row.value.trim();
-        });
-        const entryAchievements = entry.achievements
-          .map((a) => a.trim())
-          .filter(Boolean);
-        return {
-          sport: entry.sport,
-          positions: entry.positions.trim() || undefined,
-          jerseyNumber: entry.jerseyNumber.trim() || undefined,
-          stats: Object.keys(entryStats).length ? entryStats : undefined,
-          highlightUrl: entry.highlightUrl.trim() || undefined,
-          achievements: entryAchievements.length ? entryAchievements : undefined,
-        };
-      });
-
     const payload = {
       level,
-      sport,
-      additionalSports: additionalSportsPayload.length
-        ? additionalSportsPayload
-        : undefined,
+      sport: SPORT,
       name,
-      jerseyNumber: jerseyNumber || undefined,
       region,
       gradYear: gradYear || undefined,
       heightWeight: heightWeight || undefined,
-      positions: positions || undefined,
+      positions: weightClass || undefined,
       gpa: gpa || undefined,
       stats,
       highlightUrl: highlightUrl || undefined,
       achievements: achievements.filter((a) => a.trim()),
       previousSeasonStats: previousSeasonStats || undefined,
-      combine: combine.length ? combine : undefined,
       endorsement,
       contactEmail,
       contactPhone: contactPhone || undefined,
@@ -286,20 +240,18 @@ export function ProfileWizard() {
 
   const livePreviewData = {
     name,
-    sport,
+    sport: SPORT,
     level,
-    positions,
-    jerseyNumber,
+    positions: weightClass,
+    jerseyNumber: "",
     region,
     statRows,
     highlightUrl,
     achievements,
     previousSeasonStats,
-    combineFilled: combineRows.some((r) => r.label.trim()),
+    combineFilled: false,
     endorsementQuote,
-    additionalSports: additionalSports
-      .map((entry) => entry.sport)
-      .filter((s) => s.trim()),
+    additionalSports: [],
   };
 
   return (
@@ -311,8 +263,8 @@ export function ProfileWizard() {
         </p>
       )}
 
-      <div className={cn("mt-10 gap-8", step === 3 && "lg:grid lg:grid-cols-5")}>
-        <Card className={cn("p-8", step === 3 && "lg:col-span-3")}>
+      <div className={cn("mt-10 gap-8", step === 2 && "lg:grid lg:grid-cols-5")}>
+        <Card className={cn("p-8", step === 2 && "lg:col-span-3")}>
           {step === 1 && (
             <div>
               <h2 className="text-2xl text-white">Select your level</h2>
@@ -349,37 +301,6 @@ export function ProfileWizard() {
 
           {step === 2 && (
             <div>
-              <h2 className="text-2xl text-white">Select your sport</h2>
-              <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
-                {SPORTS.map((s) => (
-                  <button
-                    key={s}
-                    type="button"
-                    onClick={() => setSport(s)}
-                    className={cn(
-                      "rounded-lg border px-4 py-3 text-sm font-medium transition-colors",
-                      sport === s
-                        ? "border-electric-500 bg-electric-500/10 text-white"
-                        : "border-white/10 bg-white/5 text-slate-300 hover:border-white/30"
-                    )}
-                  >
-                    {s}
-                  </button>
-                ))}
-              </div>
-              <div className="mt-8 flex justify-between">
-                <Button variant="outline" onClick={() => setStep(1)}>
-                  Back
-                </Button>
-                <Button disabled={!sport} onClick={() => setStep(3)}>
-                  Continue
-                </Button>
-              </div>
-            </div>
-          )}
-
-          {step === 3 && (
-            <div>
               <h2 className="text-2xl text-white">Your details</h2>
 
               <div className="mt-5">
@@ -408,35 +329,18 @@ export function ProfileWizard() {
                   </Select>
                 </div>
                 <div>
-                  <Label htmlFor="sport" required>
-                    Sport
-                  </Label>
-                  <Select
-                    id="sport"
-                    value={sport ?? ""}
-                    onChange={(e) => setSport(e.target.value)}
-                  >
-                    <option value="">Select a sport</option>
-                    {SPORTS.map((s) => (
-                      <option key={s} value={s}>
-                        {s}
-                      </option>
-                    ))}
-                  </Select>
-                </div>
-                <div>
                   <Label htmlFor="name" required>
                     Full Name
                   </Label>
                   <Input id="name" value={name} onChange={(e) => setName(e.target.value)} />
                 </div>
                 <div>
-                  <Label htmlFor="jerseyNumber">Jersey Number</Label>
+                  <Label htmlFor="weightClass">Weight Class</Label>
                   <Input
-                    id="jerseyNumber"
-                    inputMode="numeric"
-                    value={jerseyNumber}
-                    onChange={(e) => setJerseyNumber(e.target.value)}
+                    id="weightClass"
+                    placeholder="132 lbs"
+                    value={weightClass}
+                    onChange={(e) => setWeightClass(e.target.value)}
                   />
                 </div>
                 <div>
@@ -449,7 +353,7 @@ export function ProfileWizard() {
                     onChange={(e) => setRegion(e.target.value)}
                   >
                     <option value="">Select a region</option>
-                    {US_REGIONS.map((r) => (
+                    {REGIONS.map((r) => (
                       <option key={r} value={r}>
                         {r}
                       </option>
@@ -468,17 +372,9 @@ export function ProfileWizard() {
                   <Label htmlFor="heightWeight">Height / Weight</Label>
                   <Input
                     id="heightWeight"
-                    placeholder="6'2&quot; / 190 lbs"
+                    placeholder="5'8&quot; / 138 lbs"
                     value={heightWeight}
                     onChange={(e) => setHeightWeight(e.target.value)}
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="positions">Position(s)</Label>
-                  <Input
-                    id="positions"
-                    value={positions}
-                    onChange={(e) => setPositions(e.target.value)}
                   />
                 </div>
                 <div>
@@ -488,20 +384,12 @@ export function ProfileWizard() {
               </div>
 
               <div className="mt-6">
-                <Label>Stats</Label>
-                <StatRowsEditor rows={statRows} onChange={setStatRows} />
-              </div>
-
-              <div className="mt-6">
-                <Label>Additional Sports (up to 2 more)</Label>
-                <p className="mb-3 text-xs text-slate-500">
-                  Play more than one sport? Add up to 2 more below — profiles
-                  with more than one sport earn the Crossface Legend tier.
+                <Label>Record</Label>
+                <p className="mb-2 text-xs text-slate-500">
+                  Add or edit rows for whatever you track — Wins, Losses, and
+                  Pins are filled in to start.
                 </p>
-                <AdditionalSportsEditor
-                  sports={additionalSports}
-                  onChange={setAdditionalSports}
-                />
+                <StatRowsEditor rows={statRows} onChange={setStatRows} />
               </div>
 
               <div className="mt-6">
@@ -539,15 +427,15 @@ export function ProfileWizard() {
               <div className="mt-6">
                 <Label>Achievements</Label>
                 <p className="mb-2 text-xs text-slate-500">
-                  Specific honors and awards (e.g. &quot;All-State,&quot; &quot;3x
-                  State Qualifier&quot;) — these count toward your profile
-                  tier, so list them here rather than in Previous Season
-                  Stats below.
+                  Specific honors and awards (e.g. &quot;Region Champion,&quot;
+                  &quot;3x State Qualifier&quot;) — these count toward your
+                  profile tier, so list them here rather than in Previous
+                  Season Stats below.
                 </p>
                 <ListEditor
                   values={achievements}
                   onChange={setAchievements}
-                  placeholder="All-State First Team, 2025"
+                  placeholder="Region Champion, 2025"
                 />
               </div>
 
@@ -562,15 +450,10 @@ export function ProfileWizard() {
                 <Textarea
                   id="previousSeasonStats"
                   rows={3}
-                  placeholder="Junior year: 890 rush yards, 9 TDs, 4.9 YPC"
+                  placeholder="Junior year: 27-4 record, 14 pins, Region Champion"
                   value={previousSeasonStats}
                   onChange={(e) => setPreviousSeasonStats(e.target.value)}
                 />
-              </div>
-
-              <div className="mt-6">
-                <Label>Combine Numbers (self-reported)</Label>
-                <StatRowsEditor rows={combineRows} onChange={setCombineRows} />
               </div>
 
               <div className="mt-6">
@@ -658,7 +541,7 @@ export function ProfileWizard() {
               <FieldError>{error}</FieldError>
 
               <div className="mt-8 flex justify-between">
-                <Button variant="outline" onClick={() => setStep(2)}>
+                <Button variant="outline" onClick={() => setStep(1)}>
                   Back
                 </Button>
                 <Button onClick={handleSubmit} disabled={status !== "idle"}>
@@ -671,7 +554,7 @@ export function ProfileWizard() {
           )}
         </Card>
 
-        {step === 3 && (
+        {step === 2 && (
           <div className="mt-8 hidden lg:col-span-2 lg:mt-0 lg:block">
             <ProfileLivePreview data={livePreviewData} />
           </div>

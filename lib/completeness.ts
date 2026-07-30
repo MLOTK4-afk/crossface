@@ -26,7 +26,7 @@ export function computeCompleteness(
   if (input.name.trim() && input.sport && input.level) {
     percent += 30;
   } else {
-    missing.push("name, sport, and level");
+    missing.push("name and level");
   }
 
   if (input.region.trim()) {

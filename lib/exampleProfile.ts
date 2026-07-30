@@ -13,41 +13,21 @@ export const EXAMPLE_PROFILE: AthleteProfile = {
   id: "example",
   ownerToken: null,
   level: "high-school",
-  sport: "Football",
+  sport: "Wrestling",
   name: "Jordan Rivera",
-  region: "Southeast",
-  positions: "Running Back",
+  region: "North Jersey",
+  positions: "132 lbs",
   team: "Example High School",
   gpa: "3.7",
   stats: {
-    "Rush Yards": "1,240",
-    Touchdowns: "14",
-    "40-Yard Dash": "4.6s",
+    Wins: "32",
+    Losses: "3",
+    Pins: "18",
   },
   achievements: [
-    "All-Conference, Senior Year",
+    "Region Champion, Senior Year",
     "Team Captain",
-    "Regional Offensive MVP",
-  ],
-  // A second sport (Track & Field) so the example profile shows off the
-  // multi-sport tab layout -- its own positions/stats/achievements/Fit
-  // Score, distinct from football's -- since this is the flagship demo
-  // page new users land on. Paired with the existing coach endorsement
-  // below, this is what genuinely earns Crossface Legend under the current
-  // tier rule (Elite-level profile + more than one sport), not an override.
-  additionalSports: [
-    {
-      sport: "Track & Field",
-      positions: "100m, 200m, 4x100m Relay",
-      stats: {
-        "100m": "11.1s",
-        "200m": "22.8s",
-      },
-      achievements: [
-        "Regional Qualifier, 100m",
-        "Conference Champion, 4x100m Relay",
-      ],
-    },
+    "3x District Qualifier",
   ],
   contactEmail: "",
   committed: false,
@@ -55,27 +35,27 @@ export const EXAMPLE_PROFILE: AthleteProfile = {
   isInternational: false,
   isExample: true,
   scoutingReport: {
-    tagline: "Explosive downhill runner with vision",
+    tagline: "North Jersey 132-Pounder Building a Complete Résumé",
     summary:
-      "Jordan Rivera is a decisive downhill runner who presses the line of scrimmage before making one cut and accelerating through the hole. Contact balance and second-effort yardage stand out on tape, and production held up against the toughest conference schedule on the team's slate.",
+      "Jordan Rivera is a high-pace 132-pounder out of North Jersey who wins the hand fight early and doesn't let go of it. Takedown volume and a high pin rate stand out on tape, and the results held up against the toughest district competition on the schedule.",
     strengths: [
-      "One-cut decisiveness",
-      "Contact balance through the hole",
-      "Home-run speed once in the open field",
-      "Reliable pass protection for the position",
+      "Explosive first-step takedowns from neutral",
+      "Relentless mat pace that breaks opponents down late",
+      "Proven finisher with a high pin rate",
+      "Battle-tested against North Jersey's toughest competition",
     ],
     statCards: [
-      { label: "Rush Yards", value: "1,240" },
-      { label: "Touchdowns", value: "14" },
-      { label: "40-Yard Dash", value: "4.6s" },
+      { label: "Wins", value: "32" },
+      { label: "Losses", value: "3" },
+      { label: "Pins", value: "18" },
       { label: "GPA", value: "3.7" },
     ],
     generatedAt: "2026-01-01T00:00:00.000Z",
   },
   combine: [
-    { label: "40-Yard Dash", value: "4.58s" },
-    { label: "Vertical Jump", value: "34 in" },
-    { label: "Bench (225 lbs)", value: "8 reps" },
+    { label: "Pro Agility (5-10-5)", value: "4.6s" },
+    { label: "Vertical Jump", value: "28 in" },
+    { label: "Pull-Ups", value: "18 reps" },
   ],
   combineVerified: false,
   endorsement: {
@@ -83,7 +63,7 @@ export const EXAMPLE_PROFILE: AthleteProfile = {
     title: "Head Coach, Example High School",
     quote: "This is what a strong coach endorsement looks like on a Crossface profile.",
   },
-  previousSeasonStats: "Junior year: 890 rush yards, 9 TDs, 4.9 YPC",
+  previousSeasonStats: "Junior year: 27-4 record, 14 pins, Region Champion",
   targetSchools: ["State University", "Coastal Tech", "Valley College"],
   createdAt: "2026-01-01T00:00:00.000Z",
   updatedAt: "2026-01-01T00:00:00.000Z",

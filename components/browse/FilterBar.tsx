@@ -1,7 +1,7 @@
 "use client";
 
 import { Input, Select } from "@/components/ui/Field";
-import { LEVELS, US_REGIONS } from "@/lib/constants";
+import { LEVELS, REGIONS } from "@/lib/constants";
 
 export interface Filters {
   q: string;
@@ -32,7 +32,7 @@ export function FilterBar({
         onChange={(e) => onChange({ ...filters, region: e.target.value })}
       >
         <option value="">All Regions</option>
-        {US_REGIONS.map((r) => (
+        {REGIONS.map((r) => (
           <option key={r} value={r}>
             {r}
           </option>
