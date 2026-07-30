@@ -8,8 +8,7 @@ type Variant =
   | "outline"
   | "ghost"
   | "accent"
-  | "outlineAccent"
-  | "flare";
+  | "outlineAccent";
 type Size = "sm" | "md" | "lg";
 
 const variants: Record<Variant, string> = {
@@ -25,9 +24,6 @@ const variants: Record<Variant, string> = {
     "bg-intl-500 text-white shadow-lg shadow-intl-500/20 hover:bg-intl-600 hover:shadow-[0_0_24px_rgba(16,185,129,0.45)]",
   outlineAccent:
     "border border-intl-300/40 text-white hover:border-intl-300 hover:bg-white/5 hover:shadow-[0_0_20px_rgba(110,231,183,0.3)]",
-  // Tertiary violet->pink accent -- reserved for a couple of deliberate
-  // spots (e.g. the persistent nav CTA), not a replacement for primary.
-  flare: "btn-glow-flare text-white",
 };
 
 const sizes: Record<Size, string> = {

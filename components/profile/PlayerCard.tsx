@@ -8,15 +8,20 @@ import { getSportAccent } from "@/lib/sportTheme";
 
 const CARD_SHARE_ORIGIN = "https://crossfacewrestling.net";
 
-/** Gold -> violet -> sky-blue "holo foil" treatment, reserved for the
+/** Gold -> orange -> sky-blue "holo foil" treatment, reserved for the
  * Crossface Legend tier so it reads as a clear step up from Elite's flat
- * violet/pink on the exported card. */
+ * violet/pink on the exported card -- purple/pink is reserved for Elite
+ * alone, so Legend's holo uses the brand orange/red as its middle stop. */
 const LEGEND_GRADIENT =
-  "linear-gradient(90deg, #FBBF24 0%, #8B5CF6 50%, #38BDF8 100%)";
+  "linear-gradient(90deg, #FBBF24 0%, #F97316 50%, #38BDF8 100%)";
 
-/** Same violet -> pink gradient as the "New Crossface athlete" text below,
- * reused on the Crossface Elite tier pill so the two premium signals match. */
+/** Violet -> pink gradient, reserved solely for the Crossface Elite tier
+ * pill -- the one deliberate spot on the site that keeps this colorway. */
 const ELITE_GRADIENT = "linear-gradient(90deg, #8B5CF6 0%, #EC4899 100%)";
+
+/** Brand gold -> red gradient (matches the primary button/seal badge),
+ * used for premium signals that aren't tier-specific. */
+const BRAND_GRADIENT = "linear-gradient(90deg, #D4A017 0%, #DC2626 100%)";
 
 /** Cuts long quotes down to a card-friendly length at a word boundary. */
 function truncateQuote(text: string, max = 100): string {
@@ -66,8 +71,8 @@ function VerificationBadge({ size = 18 }: { size?: number }) {
     <svg width={size} height={size} viewBox="-2 -2 28 28">
       <defs>
         <linearGradient id="verification-badge-gradient" x1="0" y1="0" x2="1" y2="1">
-          <stop offset="0%" stopColor="#8B5CF6" />
-          <stop offset="100%" stopColor="#EC4899" />
+          <stop offset="0%" stopColor="#D4A017" />
+          <stop offset="100%" stopColor="#DC2626" />
         </linearGradient>
       </defs>
       <g transform="translate(12,12) scale(1.22) translate(-12,-12)">
@@ -135,7 +140,7 @@ export const PlayerCard = forwardRef<
         color: "#fff",
         backgroundImage: LEGEND_GRADIENT,
         boxShadow:
-          "0 0 12px rgba(251,191,36,0.45), 0 0 12px rgba(139,92,246,0.45), 0 0 12px rgba(56,189,248,0.45)",
+          "0 0 12px rgba(251,191,36,0.45), 0 0 12px rgba(249,115,22,0.45), 0 0 12px rgba(56,189,248,0.45)",
       }
     : tier === "Elite"
       ? {
@@ -245,7 +250,7 @@ export const PlayerCard = forwardRef<
             fontSize: 13,
             letterSpacing: "0.05em",
             textTransform: "uppercase",
-            backgroundImage: ELITE_GRADIENT,
+            backgroundImage: BRAND_GRADIENT,
             WebkitBackgroundClip: "text",
             backgroundClip: "text",
             color: "transparent",

@@ -63,7 +63,7 @@ export default function BrowsePage() {
     <div>
       <PhotoHeader
         eyebrow="The Directory"
-        title={<span className="text-gradient-flare">Browse Athletes</span>}
+        title={<span className="text-gradient-orange">Browse Athletes</span>}
         subtitle="Search and filter the full Crossface wrestler directory."
         photoUrl="/images/hero-training.jpg"
         photoPosition="center 35%"

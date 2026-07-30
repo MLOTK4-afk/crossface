@@ -61,13 +61,14 @@ const STATS = [
     badgeClass: "border-electric-500/30 bg-electric-500/10 text-electric-500",
   },
   {
-    // Tertiary accent: the one flare-colored touch on the homepage, marking
-    // Fit Score as the standout feature rather than adding a third brand hue.
+    // Tertiary accent: the one orange-flavored touch on the homepage,
+    // marking Fit Score as the standout feature rather than adding a third
+    // brand hue.
     icon: TargetIcon,
     value: "Fit Score",
     label: "on every profile",
     badgeClass:
-      "border-fuchsia-400/40 bg-gradient-to-br from-violet-500/20 to-pink-500/20 text-fuchsia-300",
+      "border-orange-400/40 bg-gradient-to-br from-orange-500/20 to-amber-500/20 text-orange-300",
   },
 ];
 
