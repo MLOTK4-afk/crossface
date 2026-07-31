@@ -14,8 +14,7 @@ import { MomentumBadge } from "@/components/profile/MomentumBadge";
 import { MomentumSparkline } from "@/components/profile/MomentumSparkline";
 import { ActivityTimeline } from "@/components/profile/ActivityTimeline";
 import { DownloadCardButton } from "@/components/profile/DownloadCardButton";
-import { FilmRoom } from "@/components/profile/FilmRoom";
-import { FilmEventsEditor } from "@/components/profile/FilmEventsEditor";
+import { FilmRoomSection } from "@/components/profile/FilmRoomSection";
 import { HeadToHead, type PriorMatch } from "@/components/profile/HeadToHead";
 import { Card } from "@/components/ui/Card";
 import type { FilmEvent } from "@/lib/types";
@@ -108,31 +107,15 @@ export default async function AthletePage({
 
       <ProfileFull athlete={finalAthlete} fitScore={fitScore} />
 
-      {(() => {
-        const hasRealEvents = (finalAthlete.filmEvents?.length ?? 0) > 0;
-        const events = hasRealEvents
-          ? finalAthlete.filmEvents!
-          : SAMPLE_FILM_EVENTS;
-        const durationSeconds = hasRealEvents
-          ? Math.max(...events.map((e) => e.time)) + 30
-          : SAMPLE_FILM_DURATION_SECONDS;
-        return (
-          <FilmRoom
-            bannerUrl={finalAthlete.bannerUrl}
-            highlightUrl={finalAthlete.highlightUrl}
-            events={events}
-            durationSeconds={durationSeconds}
-            isSample={!hasRealEvents}
-          />
-        );
-      })()}
-
-      {isOwner && (
-        <FilmEventsEditor
-          athleteId={athlete.id}
-          initialEvents={athlete.filmEvents ?? []}
-        />
-      )}
+      <FilmRoomSection
+        bannerUrl={finalAthlete.bannerUrl}
+        highlightUrl={finalAthlete.highlightUrl}
+        athleteId={athlete.id}
+        initialFilmEvents={finalAthlete.filmEvents ?? []}
+        sampleEvents={SAMPLE_FILM_EVENTS}
+        sampleDurationSeconds={SAMPLE_FILM_DURATION_SECONDS}
+        isOwner={isOwner}
+      />
 
       <HeadToHead matches={SAMPLE_RECENT_MATCHES} />
 

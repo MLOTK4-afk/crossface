@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import type { FilmEvent } from "@/lib/types";
@@ -13,25 +13,16 @@ const EVENT_COLORS: Record<FilmEvent["type"], string> = {
   Pin: "#dc2626",
 };
 
-/** Returns a YouTube embed URL for youtube.com/watch, youtu.be, and
- * /shorts/ links, or null if the URL isn't a recognizable YouTube link. */
-function getYouTubeEmbedUrl(url: string): string | null {
+/** Returns the video ID for youtube.com/watch, youtu.be, /shorts/, and
+ * /embed/ links, or null if the URL isn't a recognizable YouTube link. */
+export function getYouTubeVideoId(url: string): string | null {
   try {
     const u = new URL(url);
-    if (u.hostname === "youtu.be") {
-      const id = u.pathname.slice(1);
-      return id ? `https://www.youtube.com/embed/${id}` : null;
-    }
+    if (u.hostname === "youtu.be") return u.pathname.slice(1) || null;
     if (u.hostname.includes("youtube.com")) {
-      if (u.pathname === "/watch") {
-        const id = u.searchParams.get("v");
-        return id ? `https://www.youtube.com/embed/${id}` : null;
-      }
-      if (u.pathname.startsWith("/shorts/")) {
-        const id = u.pathname.split("/")[2];
-        return id ? `https://www.youtube.com/embed/${id}` : null;
-      }
-      if (u.pathname.startsWith("/embed/")) return url;
+      if (u.pathname === "/watch") return u.searchParams.get("v");
+      if (u.pathname.startsWith("/shorts/")) return u.pathname.split("/")[2] ?? null;
+      if (u.pathname.startsWith("/embed/")) return u.pathname.split("/")[2] ?? null;
     }
     return null;
   } catch {
@@ -39,15 +30,58 @@ function getYouTubeEmbedUrl(url: string): string | null {
   }
 }
 
+export type FilmPlayer = {
+  seekTo: (seconds: number, allowSeekAhead: boolean) => void;
+  playVideo: () => void;
+  getCurrentTime: () => number;
+  destroy: () => void;
+};
+
+declare global {
+  interface Window {
+    YT?: {
+      Player: new (
+        el: HTMLElement,
+        opts: {
+          videoId: string;
+          events?: { onReady?: () => void };
+        }
+      ) => FilmPlayer;
+    };
+    onYouTubeIframeAPIReady?: () => void;
+  }
+}
+
+let ytApiPromise: Promise<void> | null = null;
+/** Loads the YouTube IFrame Player API script once per page, however many
+ * FilmRoom instances mount (e.g. the athlete profile plus its Player Card
+ * preview never both need it today, but this stays safe either way). */
+function loadYouTubeApi(): Promise<void> {
+  if (typeof window === "undefined") return Promise.resolve();
+  if (window.YT?.Player) return Promise.resolve();
+  if (ytApiPromise) return ytApiPromise;
+  ytApiPromise = new Promise((resolve) => {
+    const prev = window.onYouTubeIframeAPIReady;
+    window.onYouTubeIframeAPIReady = () => {
+      prev?.();
+      resolve();
+    };
+    const script = document.createElement("script");
+    script.src = "https://www.youtube.com/iframe_api";
+    document.head.appendChild(script);
+  });
+  return ytApiPromise;
+}
+
 /**
  * The video area plays the athlete's real highlight film when
- * `highlightUrl` is set (embedded directly for YouTube links, otherwise a
- * link out to the host). The event timeline below it shows the athlete's
- * own self-reported timestamps (`filmEvents`) when they've added any;
- * otherwise it falls back to illustrative sample data (`isSample: true`,
- * see SAMPLE_FILM_EVENTS in the athlete page) so the section still
- * demonstrates the interaction pattern on a profile with no film tagged
- * yet.
+ * `highlightUrl` is set (embedded via the YouTube IFrame Player API so the
+ * timeline below can seek it, otherwise a link out to the host). The event
+ * timeline shows the athlete's own self-reported timestamps (`filmEvents`)
+ * when they've added any; otherwise it falls back to illustrative sample
+ * data (`isSample: true`, see SAMPLE_FILM_EVENTS in the athlete page) so
+ * the section still demonstrates the interaction pattern on a profile with
+ * no film tagged yet.
  */
 export function FilmRoom({
   bannerUrl,
@@ -55,16 +89,57 @@ export function FilmRoom({
   events,
   durationSeconds,
   isSample,
+  onPlayerReady,
 }: {
   bannerUrl?: string | null;
   highlightUrl?: string | null;
   events: FilmEvent[];
   durationSeconds: number;
   isSample: boolean;
+  /** Fires once the real YouTube player is live, so an owner-only tagging
+   * UI elsewhere on the page can read its current playback time. */
+  onPlayerReady?: (player: FilmPlayer) => void;
 }) {
   const [selected, setSelected] = useState(0);
   const active = events[selected];
-  const embedUrl = highlightUrl ? getYouTubeEmbedUrl(highlightUrl) : null;
+  const videoId = highlightUrl ? getYouTubeVideoId(highlightUrl) : null;
+
+  const containerRef = useRef<HTMLDivElement>(null);
+  const playerRef = useRef<FilmPlayer | null>(null);
+  // Kept in a ref (not the effect's deps) so a parent passing a fresh
+  // inline callback each render doesn't tear down and recreate the player.
+  const onPlayerReadyRef = useRef(onPlayerReady);
+  onPlayerReadyRef.current = onPlayerReady;
+
+  useEffect(() => {
+    if (!videoId || !containerRef.current) return;
+    let cancelled = false;
+    loadYouTubeApi().then(() => {
+      if (cancelled || !containerRef.current || !window.YT) return;
+      playerRef.current = new window.YT.Player(containerRef.current, {
+        videoId,
+        events: {
+          onReady: () => {
+            if (playerRef.current) onPlayerReadyRef.current?.(playerRef.current);
+          },
+        },
+      });
+    });
+    return () => {
+      cancelled = true;
+      playerRef.current?.destroy?.();
+      playerRef.current = null;
+    };
+  }, [videoId]);
+
+  function selectEvent(i: number) {
+    setSelected(i);
+    const target = events[i];
+    if (target && playerRef.current) {
+      playerRef.current.seekTo(target.time, true);
+      playerRef.current.playVideo();
+    }
+  }
 
   return (
     <Card className="mt-6 p-6">
@@ -75,15 +150,9 @@ export function FilmRoom({
         )}
       </div>
 
-      {embedUrl ? (
-        <div className="relative mt-4 overflow-hidden rounded-xl border border-white/10">
-          <iframe
-            src={embedUrl}
-            title="Highlight film"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            className="aspect-video w-full"
-          />
+      {videoId ? (
+        <div className="relative mt-4 aspect-video overflow-hidden rounded-xl border border-white/10">
+          <div ref={containerRef} className="h-full w-full" />
         </div>
       ) : (
         <a
@@ -149,8 +218,8 @@ export function FilmRoom({
           <button
             key={i}
             type="button"
-            aria-label={`${e.type} at ${formatTime(e.time)}`}
-            onClick={() => setSelected(i)}
+            aria-label={`Jump to ${e.type} at ${formatTime(e.time)}`}
+            onClick={() => selectEvent(i)}
             className="absolute top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
             style={{
               left: `${(e.time / durationSeconds) * 100}%`,
@@ -172,7 +241,7 @@ export function FilmRoom({
           <button
             key={i}
             type="button"
-            onClick={() => setSelected(i)}
+            onClick={() => selectEvent(i)}
             className="rounded-full px-3 py-1.5 text-xs font-bold"
             style={{
               border: `1px solid ${EVENT_COLORS[e.type]}66`,
@@ -188,7 +257,9 @@ export function FilmRoom({
       <p className="mt-3 text-xs text-slate-500">
         {isSample
           ? "* Sample timeline — this athlete hasn't tagged their film yet. Every takedown, escape, tilt, and pin below is illustrative, not real."
-          : "* Self-reported by the athlete against their own highlight film."}
+          : videoId
+            ? "* Self-reported by the athlete against their own highlight film. Click a tag to jump the player to that moment."
+            : "* Self-reported by the athlete against their own highlight film."}
       </p>
     </Card>
   );
