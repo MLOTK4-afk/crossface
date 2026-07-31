@@ -16,6 +16,14 @@ export interface StatCard {
   value: string;
 }
 
+/** One self-reported timestamped moment in an athlete's highlight film,
+ * shown on the Film Room timeline. */
+export interface FilmEvent {
+  type: "Takedown" | "Escape" | "Tilt" | "Pin";
+  time: number;
+  label: string;
+}
+
 /**
  * One additional sport beyond an athlete's primary `sport` — captures only
  * the fields that genuinely vary by sport (positions, jersey, stats,
@@ -68,6 +76,9 @@ export interface AthleteProfile {
   gpa?: string;
   stats: Record<string, string>;
   highlightUrl?: string;
+  /** Self-reported timestamps against `highlightUrl` for the Film Room
+   * timeline. Falls back to illustrative sample data until set. */
+  filmEvents?: FilmEvent[];
   /** Public URL of an uploaded profile banner image (Supabase Storage). */
   bannerUrl?: string;
   achievements: string[];

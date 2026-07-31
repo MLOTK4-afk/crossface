@@ -69,6 +69,12 @@ alter table public.athletes add column if not exists additional_sports jsonb;
 -- scripts/backfill-legend-grandfather.mjs, never through the app.
 alter table public.athletes add column if not exists legend_grandfathered boolean not null default false;
 
+-- film_events: self-reported timestamped highlights (Takedown/Escape/Tilt/
+-- Pin) for the Film Room player, entered by the athlete against their own
+-- highlight_url. Falls back to illustrative sample data in the app until
+-- an athlete adds their own.
+alter table public.athletes add column if not exists film_events jsonb;
+
 -- ---------------------------------------------------------------------------
 -- scouting_boards + board_cards (coach kanban boards)
 -- ---------------------------------------------------------------------------

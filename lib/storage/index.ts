@@ -198,6 +198,7 @@ function rowToAthlete(row: any): AthleteProfile {
     gpa: row.gpa ?? undefined,
     stats: row.stats ?? {},
     highlightUrl: row.highlight_url ?? undefined,
+    filmEvents: row.film_events ?? undefined,
     bannerUrl: row.banner_url ?? undefined,
     achievements: row.achievements ?? [],
     contactEmail: row.contact_email,
@@ -244,6 +245,7 @@ function athleteToRow(
   if (data.gpa !== undefined) row.gpa = data.gpa;
   if (data.stats !== undefined) row.stats = data.stats;
   if (data.highlightUrl !== undefined) row.highlight_url = data.highlightUrl;
+  if (data.filmEvents !== undefined) row.film_events = data.filmEvents;
   if (data.bannerUrl !== undefined) row.banner_url = data.bannerUrl;
   if (data.achievements !== undefined) row.achievements = data.achievements;
   if (data.contactEmail !== undefined) row.contact_email = data.contactEmail;
