@@ -75,6 +75,10 @@ alter table public.athletes add column if not exists legend_grandfathered boolea
 -- an athlete adds their own.
 alter table public.athletes add column if not exists film_events jsonb;
 
+-- matches: self-reported prior-match log (opponent, school, result, method,
+-- time) backing the Head-to-Head search on an athlete's own profile.
+alter table public.athletes add column if not exists matches jsonb;
+
 -- ---------------------------------------------------------------------------
 -- scouting_boards + board_cards (coach kanban boards)
 -- ---------------------------------------------------------------------------

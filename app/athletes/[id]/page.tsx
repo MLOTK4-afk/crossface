@@ -15,15 +15,15 @@ import { MomentumSparkline } from "@/components/profile/MomentumSparkline";
 import { ActivityTimeline } from "@/components/profile/ActivityTimeline";
 import { DownloadCardButton } from "@/components/profile/DownloadCardButton";
 import { FilmRoomSection } from "@/components/profile/FilmRoomSection";
-import { HeadToHead, type PriorMatch } from "@/components/profile/HeadToHead";
+import { HeadToHeadSection } from "@/components/profile/HeadToHeadSection";
 import { Card } from "@/components/ui/Card";
 import type { FilmEvent } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
 
-/** Illustrative sample data for the Film Room / Head-to-Head concept
- * previews -- shown on every profile until real film-upload tagging and
- * submitted match records exist. Not tied to any real athlete's results. */
+/** Illustrative sample data for the Film Room concept preview -- shown
+ * until an athlete tags their own film. Not tied to any real athlete's
+ * results. */
 const SAMPLE_FILM_EVENTS: FilmEvent[] = [
   { type: "Takedown", time: 12, label: "Double leg, 1st period" },
   { type: "Escape", time: 47, label: "Stand-up escape" },
@@ -32,13 +32,6 @@ const SAMPLE_FILM_EVENTS: FilmEvent[] = [
   { type: "Pin", time: 171, label: "Fall via half nelson" },
 ];
 const SAMPLE_FILM_DURATION_SECONDS = 240;
-
-const SAMPLE_RECENT_MATCHES: PriorMatch[] = [
-  { opponent: "T. Alvarez", school: "Union Catholic", result: "W", method: "Pin", time: "3:41" },
-  { opponent: "M. Okafor", school: "Elizabeth", result: "W", method: "Dec", time: "6-2" },
-  { opponent: "R. Sinclair", school: "Linden", result: "L", method: "Dec", time: "4-7" },
-  { opponent: "D. Petrakis", school: "Roselle Park", result: "W", method: "Maj", time: "11-2" },
-];
 
 export async function generateMetadata({
   params,
@@ -117,7 +110,11 @@ export default async function AthletePage({
         isOwner={isOwner}
       />
 
-      <HeadToHead matches={SAMPLE_RECENT_MATCHES} />
+      <HeadToHeadSection
+        athleteId={athlete.id}
+        initialMatches={finalAthlete.matches ?? []}
+        isOwner={isOwner}
+      />
 
       {isOwner && (
         <TargetSchoolsEditor

@@ -3,20 +3,17 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/Card";
 import { Input } from "@/components/ui/Field";
+import type { PriorMatch } from "@/lib/types";
 
-export type PriorMatch = {
-  opponent: string;
-  school: string;
-  result: "W" | "L";
-  method: string;
-  time: string;
-};
+export type { PriorMatch };
 
 /**
- * Concept preview -- checks a typed name against this athlete's own sample
- * match log (see SAMPLE_RECENT on the athlete page). The real feature lets
- * any wrestler submit their full record and opponents faced, so this
- * search would work across every profile on Crossface, not just this one.
+ * Searches this athlete's own self-reported match log (`matches`) for an
+ * opponent name. Real, but scoped to what this athlete has submitted about
+ * themselves -- it does not cross-reference other Crossface athletes'
+ * profiles or any outside results database (see the athlete page for why:
+ * no public wrestling-results API exists, and matching by name alone risks
+ * attributing the wrong person's record).
  */
 export function HeadToHead({ matches }: { matches: PriorMatch[] }) {
   const [query, setQuery] = useState("");
@@ -50,7 +47,7 @@ export function HeadToHead({ matches }: { matches: PriorMatch[] }) {
                       {m.result}
                     </span>{" "}
                     <span className="text-slate-200">vs {m.opponent}</span>
-                    <span className="text-slate-500"> · {m.school}</span>
+                    {m.school && <span className="text-slate-500"> · {m.school}</span>}
                   </div>
                   <div className="text-slate-400">
                     {m.method} {m.time}
@@ -67,10 +64,9 @@ export function HeadToHead({ matches }: { matches: PriorMatch[] }) {
       )}
 
       <p className="mt-3 text-xs text-slate-500">
-        * Checked here against this wrestler&apos;s sample match log. The
-        real feature lets any wrestler submit their full record and the
-        opponents they&apos;ve faced, so this search works across every
-        profile on Crossface.
+        {matches.length > 0
+          ? "* Self-reported by this athlete against their own match log."
+          : "* This athlete hasn't logged any prior matches yet."}
       </p>
     </Card>
   );
