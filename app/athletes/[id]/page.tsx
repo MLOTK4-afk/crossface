@@ -103,8 +103,10 @@ export default async function AthletePage({
       <FilmRoomSection
         bannerUrl={finalAthlete.bannerUrl}
         highlightUrl={finalAthlete.highlightUrl}
+        highlightVideoUrl={finalAthlete.highlightVideoUrl}
         athleteId={athlete.id}
         initialFilmEvents={finalAthlete.filmEvents ?? []}
+        initialFilmCandidates={finalAthlete.filmCandidates ?? []}
         sampleEvents={SAMPLE_FILM_EVENTS}
         sampleDurationSeconds={SAMPLE_FILM_DURATION_SECONDS}
         isOwner={isOwner}

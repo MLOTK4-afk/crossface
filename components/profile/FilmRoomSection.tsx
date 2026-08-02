@@ -18,40 +18,48 @@ import type { FilmEvent } from "@/lib/types";
 export function FilmRoomSection({
   bannerUrl,
   highlightUrl,
+  highlightVideoUrl,
   athleteId,
   initialFilmEvents,
+  initialFilmCandidates,
   sampleEvents,
   sampleDurationSeconds,
   isOwner,
 }: {
   bannerUrl?: string | null;
   highlightUrl?: string | null;
+  highlightVideoUrl?: string | null;
   athleteId: string;
   initialFilmEvents: FilmEvent[];
+  initialFilmCandidates: number[];
   sampleEvents: FilmEvent[];
   sampleDurationSeconds: number;
   isOwner: boolean;
 }) {
   const [filmEvents, setFilmEvents] = useState(initialFilmEvents);
+  const [filmCandidates, setFilmCandidates] = useState(initialFilmCandidates);
   const playerRef = useRef<FilmPlayer | null>(null);
 
   const hasReal = filmEvents.length > 0;
   const events = hasReal ? filmEvents : sampleEvents;
+  const allTimes = [...filmEvents.map((e) => e.time), ...filmCandidates];
   const durationSeconds = hasReal
-    ? Math.max(...filmEvents.map((e) => e.time)) + 30
+    ? Math.max(...allTimes) + 30
     : sampleDurationSeconds;
 
   const handlePlayerReady = useCallback((player: FilmPlayer) => {
     playerRef.current = player;
   }, []);
 
-  const hasEmbeddablePlayer = !!(highlightUrl && getYouTubeVideoId(highlightUrl));
+  const hasEmbeddablePlayer =
+    !!highlightVideoUrl || !!(highlightUrl && getYouTubeVideoId(highlightUrl));
 
   return (
     <>
       <FilmRoom
         bannerUrl={bannerUrl}
         highlightUrl={highlightUrl}
+        highlightVideoUrl={highlightVideoUrl}
         events={events}
         durationSeconds={durationSeconds}
         isSample={!hasReal}
@@ -65,6 +73,16 @@ export function FilmRoomSection({
           getCurrentTime={
             hasEmbeddablePlayer
               ? () => playerRef.current?.getCurrentTime() ?? null
+              : undefined
+          }
+          candidates={filmCandidates}
+          onCandidatesChange={setFilmCandidates}
+          seekTo={
+            hasEmbeddablePlayer
+              ? (seconds) => {
+                  playerRef.current?.seekTo(seconds, true);
+                  playerRef.current?.playVideo();
+                }
               : undefined
           }
         />

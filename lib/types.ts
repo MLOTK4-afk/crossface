@@ -86,6 +86,15 @@ export interface AthleteProfile {
   gpa?: string;
   stats: Record<string, string>;
   highlightUrl?: string;
+  /** Public URL of an uploaded highlight video (Supabase Storage). Takes
+   * priority over `highlightUrl` for playback in the Film Room, since only
+   * an uploaded file can be scanned for audio-spike candidate moments. */
+  highlightVideoUrl?: string;
+  /** Auto-detected "something happened here" timestamps (seconds) from
+   * scanning `highlightVideoUrl`'s audio track for loudness spikes -- see
+   * lib/audioSpikes.ts. The athlete labels or dismisses each one; labeling
+   * moves it into `filmEvents` and removes it from this list. */
+  filmCandidates?: number[];
   /** Self-supplied link to this athlete's record on an external site
    * (TrackWrestling, FloWrestling, NCSA, Hudl, etc). Stored and shown as a
    * link-out only -- Crossface never fetches or parses this URL. */

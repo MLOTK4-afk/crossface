@@ -14,6 +14,9 @@ export function FilmEventsEditor({
   events,
   onEventsChange,
   getCurrentTime,
+  candidates = [],
+  onCandidatesChange,
+  seekTo,
 }: {
   athleteId: string;
   events: FilmEvent[];
@@ -21,6 +24,13 @@ export function FilmEventsEditor({
   /** Reads the live player's current playback second, if a video is loaded
    * and ready. Powers the "tag while you watch" quick-capture buttons. */
   getCurrentTime?: () => number | null;
+  /** Auto-detected "something happened here" timestamps from an
+   * audio-loudness scan of an uploaded video -- see lib/audioSpikes.ts. */
+  candidates?: number[];
+  onCandidatesChange?: (next: number[]) => void;
+  /** Jumps the live player to a candidate's timestamp so the athlete can
+   * preview it before deciding what (if anything) it was. */
+  seekTo?: (seconds: number) => void;
 }) {
   const [type, setType] = useState<FilmEvent["type"]>("Takedown");
   const [time, setTime] = useState("");
@@ -30,16 +40,23 @@ export function FilmEventsEditor({
   const [labelDrafts, setLabelDrafts] = useState<Record<number, string>>({});
   const { showToast } = useToast();
 
-  async function save(next: FilmEvent[], message = "Profile updated") {
+  async function save(
+    next: FilmEvent[],
+    message = "Profile updated",
+    nextCandidates?: number[]
+  ) {
     const sorted = [...next].sort((a, b) => a.time - b.time);
     setSaving(true);
+    const body: Record<string, unknown> = { filmEvents: sorted };
+    if (nextCandidates !== undefined) body.filmCandidates = nextCandidates;
     const res = await fetch(`/api/athletes/${athleteId}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ filmEvents: sorted }),
+      body: JSON.stringify(body),
     });
     if (res.ok) {
       onEventsChange(sorted);
+      if (nextCandidates !== undefined) onCandidatesChange?.(nextCandidates);
       showToast(message);
     }
     setSaving(false);
@@ -51,6 +68,22 @@ export function FilmEventsEditor({
     save(
       [...events, { type: eventType, time: Math.round(current), label: eventType }],
       `Tagged ${eventType.toLowerCase()} at ${formatFilmTime(Math.round(current))}`
+    );
+  }
+
+  function labelCandidate(candidateTime: number, eventType: FilmEvent["type"]) {
+    save(
+      [...events, { type: eventType, time: candidateTime, label: eventType }],
+      `Tagged ${eventType.toLowerCase()} at ${formatFilmTime(candidateTime)}`,
+      candidates.filter((c) => c !== candidateTime)
+    );
+  }
+
+  function dismissCandidate(candidateTime: number) {
+    save(
+      events,
+      "Dismissed",
+      candidates.filter((c) => c !== candidateTime)
     );
   }
 
@@ -68,6 +101,57 @@ export function FilmEventsEditor({
       <h3 className="text-sm uppercase tracking-wider text-slate-400">
         Tag Your Film
       </h3>
+
+      {candidates.length > 0 && (
+        <div className="mt-3 rounded-md border border-electric-500/30 bg-electric-500/5 p-3">
+          <p className="text-xs text-slate-300">
+            We scanned your video&apos;s audio for {candidates.length}{" "}
+            moment{candidates.length === 1 ? "" : "s"} that sounded like
+            something happened (a whistle, a crowd reaction). Play each one
+            and tell us what it was.
+          </p>
+          <ul className="mt-2 space-y-1.5">
+            {candidates.map((c) => (
+              <li
+                key={c}
+                className="flex flex-wrap items-center gap-2 rounded-md bg-white/5 px-3 py-1.5 text-sm"
+              >
+                <button
+                  type="button"
+                  onClick={() => seekTo?.(c)}
+                  disabled={!seekTo}
+                  className="shrink-0 font-bold text-white hover:text-electric-400 disabled:cursor-default disabled:hover:text-white"
+                  aria-label={`Play moment at ${formatFilmTime(c)}`}
+                >
+                  ▶ {formatFilmTime(c)}
+                </button>
+                <div className="flex flex-wrap gap-1">
+                  {EVENT_TYPES.map((t) => (
+                    <button
+                      key={t}
+                      type="button"
+                      disabled={saving}
+                      onClick={() => labelCandidate(c, t)}
+                      className="rounded-full border border-white/15 px-2 py-0.5 text-xs text-slate-300 hover:border-white/40 hover:text-white"
+                    >
+                      {t}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  disabled={saving}
+                  onClick={() => dismissCandidate(c)}
+                  className="ml-auto shrink-0 text-xs text-slate-500 hover:text-red-400"
+                  aria-label={`Dismiss suggestion at ${formatFilmTime(c)}`}
+                >
+                  Not this
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {canCapture ? (
         <>

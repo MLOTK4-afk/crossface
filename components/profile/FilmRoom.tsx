@@ -86,6 +86,7 @@ function loadYouTubeApi(): Promise<void> {
 export function FilmRoom({
   bannerUrl,
   highlightUrl,
+  highlightVideoUrl,
   events,
   durationSeconds,
   isSample,
@@ -93,18 +94,23 @@ export function FilmRoom({
 }: {
   bannerUrl?: string | null;
   highlightUrl?: string | null;
+  /** An uploaded video file, preferred over `highlightUrl` when present --
+   * it's the only source that can be scanned for candidate moments. */
+  highlightVideoUrl?: string | null;
   events: FilmEvent[];
   durationSeconds: number;
   isSample: boolean;
-  /** Fires once the real YouTube player is live, so an owner-only tagging
-   * UI elsewhere on the page can read its current playback time. */
+  /** Fires once the real player is live, so an owner-only tagging UI
+   * elsewhere on the page can read its current playback time. */
   onPlayerReady?: (player: FilmPlayer) => void;
 }) {
   const [selected, setSelected] = useState(0);
   const active = events[selected];
-  const videoId = highlightUrl ? getYouTubeVideoId(highlightUrl) : null;
+  const videoId =
+    !highlightVideoUrl && highlightUrl ? getYouTubeVideoId(highlightUrl) : null;
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const playerRef = useRef<FilmPlayer | null>(null);
   // Kept in a ref (not the effect's deps) so a parent passing a fresh
   // inline callback each render doesn't tear down and recreate the player.
@@ -132,6 +138,30 @@ export function FilmRoom({
     };
   }, [videoId]);
 
+  useEffect(() => {
+    if (!highlightVideoUrl || !videoRef.current) return;
+    const el = videoRef.current;
+    const player: FilmPlayer = {
+      seekTo: (seconds) => {
+        el.currentTime = seconds;
+      },
+      playVideo: () => {
+        el.play().catch(() => {});
+      },
+      getCurrentTime: () => el.currentTime,
+      destroy: () => {},
+    };
+    const handleReady = () => {
+      playerRef.current = player;
+      onPlayerReadyRef.current?.(player);
+    };
+    el.addEventListener("loadedmetadata", handleReady);
+    return () => {
+      el.removeEventListener("loadedmetadata", handleReady);
+      playerRef.current = null;
+    };
+  }, [highlightVideoUrl]);
+
   function selectEvent(i: number) {
     setSelected(i);
     const target = events[i];
@@ -150,7 +180,17 @@ export function FilmRoom({
         )}
       </div>
 
-      {videoId ? (
+      {highlightVideoUrl ? (
+        <div className="relative mt-4 aspect-video overflow-hidden rounded-xl border border-white/10">
+          <video
+            ref={videoRef}
+            src={highlightVideoUrl}
+            controls
+            playsInline
+            className="h-full w-full"
+          />
+        </div>
+      ) : videoId ? (
         <div className="relative mt-4 aspect-video overflow-hidden rounded-xl border border-white/10">
           <div ref={containerRef} className="h-full w-full" />
         </div>
@@ -257,7 +297,7 @@ export function FilmRoom({
       <p className="mt-3 text-xs text-slate-500">
         {isSample
           ? "* Sample timeline — this athlete hasn't tagged their film yet. Every takedown, escape, tilt, and pin below is illustrative, not real."
-          : videoId
+          : videoId || highlightVideoUrl
             ? "* Self-reported by the athlete against their own highlight film. Click a tag to jump the player to that moment."
             : "* Self-reported by the athlete against their own highlight film."}
       </p>

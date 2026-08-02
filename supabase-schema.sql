@@ -84,6 +84,17 @@ alter table public.athletes add column if not exists matches jsonb;
 -- shown as a link-out only -- never fetched or parsed by the app.
 alter table public.athletes add column if not exists external_profile_url text;
 
+-- highlight_video_url: an uploaded (not linked) highlight video, stored in
+-- Crossface's own storage so its audio track can legitimately be scanned
+-- for candidate moments (see lib/audioSpikes.ts) -- unlike highlight_url
+-- (a YouTube link), we actually hold these bytes.
+alter table public.athletes add column if not exists highlight_video_url text;
+
+-- film_candidates: auto-detected "something happened here" timestamps
+-- (seconds) from an audio-loudness scan of highlight_video_url. The
+-- athlete labels or dismisses each one; labeling moves it into film_events.
+alter table public.athletes add column if not exists film_candidates jsonb;
+
 -- ---------------------------------------------------------------------------
 -- scouting_boards + board_cards (coach kanban boards)
 -- ---------------------------------------------------------------------------
@@ -297,3 +308,29 @@ create policy "athlete_banners_update" on storage.objects
 drop policy if exists "athlete_banners_delete" on storage.objects;
 create policy "athlete_banners_delete" on storage.objects
   for delete to anon using (bucket_id = 'athlete-banners');
+
+-- ---------------------------------------------------------------------------
+-- athlete-highlights storage bucket (uploaded highlight videos)
+--
+-- Same public-read / permissive-anon-write pattern as athlete-banners.
+-- Ownership enforced in app/api/athletes/[id]/highlight-video/route.ts.
+-- ---------------------------------------------------------------------------
+insert into storage.buckets (id, name, public)
+values ('athlete-highlights', 'athlete-highlights', true)
+on conflict (id) do nothing;
+
+drop policy if exists "athlete_highlights_select" on storage.objects;
+create policy "athlete_highlights_select" on storage.objects
+  for select to anon using (bucket_id = 'athlete-highlights');
+
+drop policy if exists "athlete_highlights_insert" on storage.objects;
+create policy "athlete_highlights_insert" on storage.objects
+  for insert to anon with check (bucket_id = 'athlete-highlights');
+
+drop policy if exists "athlete_highlights_update" on storage.objects;
+create policy "athlete_highlights_update" on storage.objects
+  for update to anon using (bucket_id = 'athlete-highlights');
+
+drop policy if exists "athlete_highlights_delete" on storage.objects;
+create policy "athlete_highlights_delete" on storage.objects
+  for delete to anon using (bucket_id = 'athlete-highlights');

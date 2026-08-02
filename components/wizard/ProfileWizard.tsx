@@ -45,6 +45,10 @@ export function ProfileWizard() {
   const [bannerFile, setBannerFile] = useState<File | null>(null);
   const [bannerPreviewUrl, setBannerPreviewUrl] = useState<string | null>(null);
   const [bannerError, setBannerError] = useState<string | null>(null);
+  const [videoFile, setVideoFile] = useState<File | null>(null);
+  const [videoFileName, setVideoFileName] = useState<string | null>(null);
+  const [videoError, setVideoError] = useState<string | null>(null);
+  const [hasExistingVideo, setHasExistingVideo] = useState(false);
   const [achievements, setAchievements] = useState<string[]>([""]);
   const [previousSeasonStats, setPreviousSeasonStats] = useState("");
   const [endorsementName, setEndorsementName] = useState("");
@@ -84,6 +88,7 @@ export function ProfileWizard() {
         setStatRows(rows.length ? rows : DEFAULT_STAT_ROWS);
         setHighlightUrl(athlete.highlightUrl ?? "");
         setExternalProfileUrl(athlete.externalProfileUrl ?? "");
+        setHasExistingVideo(!!athlete.highlightVideoUrl);
         setBannerPreviewUrl(athlete.bannerUrl ?? null);
         setAchievements(
           athlete.achievements.length ? athlete.achievements : [""]
@@ -144,6 +149,39 @@ export function ProfileWizard() {
     });
     if (!res.ok) {
       setBannerError("Profile saved, but the banner upload failed.");
+      return null;
+    }
+    return (await res.json()) as AthleteProfile;
+  }
+
+  const VIDEO_TYPES = ["video/mp4", "video/quicktime", "video/webm"];
+  const VIDEO_MAX_BYTES = 150 * 1024 * 1024;
+
+  function handleVideoSelect(file: File | null) {
+    setVideoError(null);
+    if (!file) return;
+    if (!VIDEO_TYPES.includes(file.type)) {
+      setVideoError("Use an MP4, MOV, or WebM video.");
+      return;
+    }
+    if (file.size > VIDEO_MAX_BYTES) {
+      setVideoError("Video is too large (150MB max).");
+      return;
+    }
+    setVideoFile(file);
+    setVideoFileName(file.name);
+  }
+
+  async function uploadVideoIfStaged(athleteId: string) {
+    if (!videoFile) return null;
+    const formData = new FormData();
+    formData.append("file", videoFile);
+    const res = await fetch(`/api/athletes/${athleteId}/highlight-video`, {
+      method: "POST",
+      body: formData,
+    });
+    if (!res.ok) {
+      setVideoError("Profile saved, but the video upload failed.");
       return null;
     }
     return (await res.json()) as AthleteProfile;
@@ -219,7 +257,8 @@ export function ProfileWizard() {
       if (!reportRes.ok) {
         const data = await reportRes.json();
         const withBanner = await uploadBannerIfStaged(athlete.id);
-        setResult(withBanner ?? athlete);
+        const withVideo = await uploadVideoIfStaged(athlete.id);
+        setResult(withVideo ?? withBanner ?? athlete);
         setStatus("done");
         setError(
           `Profile saved, but the AI scouting report could not be generated: ${data.error ?? "unknown error"}`
@@ -229,7 +268,8 @@ export function ProfileWizard() {
 
       const updated: AthleteProfile = await reportRes.json();
       const withBanner = await uploadBannerIfStaged(updated.id);
-      setResult(withBanner ?? updated);
+      const withVideo = await uploadVideoIfStaged(updated.id);
+      setResult(withVideo ?? withBanner ?? updated);
       setStatus("done");
     } catch (err) {
       setStatus("idle");
@@ -403,6 +443,38 @@ export function ProfileWizard() {
                   value={highlightUrl}
                   onChange={(e) => setHighlightUrl(e.target.value)}
                 />
+              </div>
+
+              <div className="mt-6">
+                <Label htmlFor="highlightVideo">
+                  Upload Highlight Video (optional)
+                </Label>
+                <p className="mb-2 text-xs text-slate-500">
+                  Upload the actual file (instead of just a link) and
+                  we&apos;ll scan the audio for moments worth tagging —
+                  whistles, crowd reactions — so you just confirm what
+                  happened instead of scrubbing the whole clip yourself. MP4,
+                  MOV, or WebM, 150MB max.
+                </p>
+                {videoFileName ? (
+                  <p className="mb-2 text-xs text-slate-400">
+                    Selected: {videoFileName}
+                  </p>
+                ) : (
+                  hasExistingVideo && (
+                    <p className="mb-2 text-xs text-slate-400">
+                      Already uploaded — choose a file to replace it.
+                    </p>
+                  )
+                )}
+                <input
+                  id="highlightVideo"
+                  type="file"
+                  accept="video/mp4,video/quicktime,video/webm"
+                  onChange={(e) => handleVideoSelect(e.target.files?.[0] ?? null)}
+                  className="block w-full text-sm text-slate-400 file:mr-4 file:rounded-md file:border-0 file:bg-electric-500 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-white hover:file:bg-electric-600"
+                />
+                {videoError && <FieldError>{videoError}</FieldError>}
               </div>
 
               <div className="mt-6">
