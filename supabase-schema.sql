@@ -79,6 +79,11 @@ alter table public.athletes add column if not exists film_events jsonb;
 -- time) backing the Head-to-Head search on an athlete's own profile.
 alter table public.athletes add column if not exists matches jsonb;
 
+-- external_profile_url: self-supplied link to this athlete's record on an
+-- external site (TrackWrestling, FloWrestling, NCSA, Hudl, etc). Stored and
+-- shown as a link-out only -- never fetched or parsed by the app.
+alter table public.athletes add column if not exists external_profile_url text;
+
 -- ---------------------------------------------------------------------------
 -- scouting_boards + board_cards (coach kanban boards)
 -- ---------------------------------------------------------------------------

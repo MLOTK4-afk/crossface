@@ -86,6 +86,10 @@ export interface AthleteProfile {
   gpa?: string;
   stats: Record<string, string>;
   highlightUrl?: string;
+  /** Self-supplied link to this athlete's record on an external site
+   * (TrackWrestling, FloWrestling, NCSA, Hudl, etc). Stored and shown as a
+   * link-out only -- Crossface never fetches or parses this URL. */
+  externalProfileUrl?: string;
   /** Self-reported timestamps against `highlightUrl` for the Film Room
    * timeline. Falls back to illustrative sample data until set. */
   filmEvents?: FilmEvent[];

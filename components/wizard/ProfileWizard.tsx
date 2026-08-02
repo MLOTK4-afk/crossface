@@ -41,6 +41,7 @@ export function ProfileWizard() {
   const [gpa, setGpa] = useState("");
   const [statRows, setStatRows] = useState(DEFAULT_STAT_ROWS);
   const [highlightUrl, setHighlightUrl] = useState("");
+  const [externalProfileUrl, setExternalProfileUrl] = useState("");
   const [bannerFile, setBannerFile] = useState<File | null>(null);
   const [bannerPreviewUrl, setBannerPreviewUrl] = useState<string | null>(null);
   const [bannerError, setBannerError] = useState<string | null>(null);
@@ -82,6 +83,7 @@ export function ProfileWizard() {
         }));
         setStatRows(rows.length ? rows : DEFAULT_STAT_ROWS);
         setHighlightUrl(athlete.highlightUrl ?? "");
+        setExternalProfileUrl(athlete.externalProfileUrl ?? "");
         setBannerPreviewUrl(athlete.bannerUrl ?? null);
         setAchievements(
           athlete.achievements.length ? athlete.achievements : [""]
@@ -179,6 +181,7 @@ export function ProfileWizard() {
       gpa: gpa || undefined,
       stats,
       highlightUrl: highlightUrl || undefined,
+      externalProfileUrl: externalProfileUrl || undefined,
       achievements: achievements.filter((a) => a.trim()),
       previousSeasonStats: previousSeasonStats || undefined,
       endorsement,
@@ -399,6 +402,23 @@ export function ProfileWizard() {
                   placeholder="https://youtube.com/..."
                   value={highlightUrl}
                   onChange={(e) => setHighlightUrl(e.target.value)}
+                />
+              </div>
+
+              <div className="mt-6">
+                <Label htmlFor="externalProfileUrl">
+                  Link to Your Record (optional)
+                </Label>
+                <p className="mb-2 text-xs text-slate-500">
+                  Already have a page on TrackWrestling, FloWrestling, NCSA,
+                  or Hudl? Paste the link and we&apos;ll show it on your
+                  profile — we don&apos;t pull data from it automatically.
+                </p>
+                <Input
+                  id="externalProfileUrl"
+                  placeholder="https://www.trackwrestling.com/..."
+                  value={externalProfileUrl}
+                  onChange={(e) => setExternalProfileUrl(e.target.value)}
                 />
               </div>
 

@@ -65,17 +65,29 @@ export function ProfileFull({
           </div>
         </div>
 
-        {!hasMultipleSports && athlete.highlightUrl && (
-          <a
-            href={athlete.highlightUrl}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex shrink-0 items-center gap-2 rounded-md px-5 py-2.5 text-sm font-semibold text-white"
-            style={{ backgroundColor: accent }}
-          >
-            Watch Highlight Film
-          </a>
-        )}
+        <div className="flex shrink-0 flex-col items-start gap-2 sm:items-end">
+          {!hasMultipleSports && athlete.highlightUrl && (
+            <a
+              href={athlete.highlightUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 rounded-md px-5 py-2.5 text-sm font-semibold text-white"
+              style={{ backgroundColor: accent }}
+            >
+              Watch Highlight Film
+            </a>
+          )}
+          {athlete.externalProfileUrl && (
+            <a
+              href={athlete.externalProfileUrl}
+              target="_blank"
+              rel="noreferrer"
+              className="text-sm text-slate-400 underline decoration-white/20 underline-offset-2 hover:text-white"
+            >
+              View Full Record ↗
+            </a>
+          )}
+        </div>
       </div>
 
       {hasMultipleSports && (

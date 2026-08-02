@@ -81,6 +81,7 @@ export async function POST(req: Request) {
     gpa: body.gpa,
     stats: body.stats ?? {},
     highlightUrl: body.highlightUrl,
+    externalProfileUrl: body.externalProfileUrl,
     achievements: body.achievements ?? [],
     previousSeasonStats: body.previousSeasonStats,
     combine: body.combine,

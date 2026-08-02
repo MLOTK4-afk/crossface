@@ -198,6 +198,7 @@ function rowToAthlete(row: any): AthleteProfile {
     gpa: row.gpa ?? undefined,
     stats: row.stats ?? {},
     highlightUrl: row.highlight_url ?? undefined,
+    externalProfileUrl: row.external_profile_url ?? undefined,
     filmEvents: row.film_events ?? undefined,
     matches: row.matches ?? undefined,
     bannerUrl: row.banner_url ?? undefined,
@@ -246,6 +247,8 @@ function athleteToRow(
   if (data.gpa !== undefined) row.gpa = data.gpa;
   if (data.stats !== undefined) row.stats = data.stats;
   if (data.highlightUrl !== undefined) row.highlight_url = data.highlightUrl;
+  if (data.externalProfileUrl !== undefined)
+    row.external_profile_url = data.externalProfileUrl;
   if (data.filmEvents !== undefined) row.film_events = data.filmEvents;
   if (data.matches !== undefined) row.matches = data.matches;
   if (data.bannerUrl !== undefined) row.banner_url = data.bannerUrl;
