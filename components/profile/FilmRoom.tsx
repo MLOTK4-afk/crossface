@@ -297,9 +297,11 @@ export function FilmRoom({
       <p className="mt-3 text-xs text-slate-500">
         {isSample
           ? "* Sample timeline — this athlete hasn't tagged their film yet. Every takedown, escape, tilt, and pin below is illustrative, not real."
-          : videoId || highlightVideoUrl
-            ? "* Self-reported by the athlete against their own highlight film. Click a tag to jump the player to that moment."
-            : "* Self-reported by the athlete against their own highlight film."}
+          : events.length === 0
+            ? "* This athlete hasn't tagged their film yet."
+            : videoId || highlightVideoUrl
+              ? "* Self-reported by the athlete against their own highlight film. Click a tag to jump the player to that moment."
+              : "* Self-reported by the athlete against their own highlight film."}
       </p>
     </Card>
   );

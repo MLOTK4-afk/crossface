@@ -51,7 +51,8 @@ export default function PrivacyPage() {
           based on the information an athlete submits. This AI-generated
           content may contain inaccuracies and should not be treated as a
           guarantee of athletic ability or of any recruiting outcome.
-          Self-reported stats, achievements, and combine numbers are not
+          Self-reported stats, achievements, and strength and conditioning
+          numbers are not
           independently verified by Crossface unless a profile explicitly
           says otherwise.
         </p>

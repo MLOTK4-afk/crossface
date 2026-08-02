@@ -194,7 +194,7 @@ export function ProfileFull({
         <div className="mt-6 border-t border-white/10 pt-6">
           <div className="flex items-center gap-2">
             <h3 className="text-sm uppercase tracking-wider text-slate-400">
-              Combine Numbers
+              Strength &amp; Conditioning
             </h3>
             <Badge>
               {athlete.combineVerified ? "Verified" : "Self-reported"}

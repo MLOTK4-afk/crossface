@@ -17,21 +17,8 @@ import { DownloadCardButton } from "@/components/profile/DownloadCardButton";
 import { FilmRoomSection } from "@/components/profile/FilmRoomSection";
 import { HeadToHeadSection } from "@/components/profile/HeadToHeadSection";
 import { Card } from "@/components/ui/Card";
-import type { FilmEvent } from "@/lib/types";
 
 export const dynamic = "force-dynamic";
-
-/** Illustrative sample data for the Film Room concept preview -- shown
- * until an athlete tags their own film. Not tied to any real athlete's
- * results. */
-const SAMPLE_FILM_EVENTS: FilmEvent[] = [
-  { type: "Takedown", time: 12, label: "Double leg, 1st period" },
-  { type: "Escape", time: 47, label: "Stand-up escape" },
-  { type: "Tilt", time: 89, label: "Near fall off the tilt" },
-  { type: "Takedown", time: 134, label: "Duck-under, 2nd period" },
-  { type: "Pin", time: 171, label: "Fall via half nelson" },
-];
-const SAMPLE_FILM_DURATION_SECONDS = 240;
 
 export async function generateMetadata({
   params,
@@ -107,8 +94,6 @@ export default async function AthletePage({
         athleteId={athlete.id}
         initialFilmEvents={finalAthlete.filmEvents ?? []}
         initialFilmCandidates={finalAthlete.filmCandidates ?? []}
-        sampleEvents={SAMPLE_FILM_EVENTS}
-        sampleDurationSeconds={SAMPLE_FILM_DURATION_SECONDS}
         isOwner={isOwner}
       />
 

@@ -14,6 +14,13 @@ import type { FilmEvent } from "@/lib/types";
  * state, so the always-visible FilmRoom display and the owner-only
  * FilmEventsEditor (rendered separately below it) can share both without
  * either needing to know how the other works.
+ *
+ * Only ever shows an athlete's own real data (self-tagged filmEvents, or
+ * candidates from the audio-spike function once labeled) -- never
+ * illustrative sample timestamps. Those exist only on the example profile
+ * (see app/athletes/example/page.tsx), which renders FilmRoom directly
+ * rather than through this component, so a real athlete's video can never
+ * end up with fake markers that seek to the wrong place.
  */
 export function FilmRoomSection({
   bannerUrl,
@@ -22,8 +29,6 @@ export function FilmRoomSection({
   athleteId,
   initialFilmEvents,
   initialFilmCandidates,
-  sampleEvents,
-  sampleDurationSeconds,
   isOwner,
 }: {
   bannerUrl?: string | null;
@@ -32,20 +37,14 @@ export function FilmRoomSection({
   athleteId: string;
   initialFilmEvents: FilmEvent[];
   initialFilmCandidates: number[];
-  sampleEvents: FilmEvent[];
-  sampleDurationSeconds: number;
   isOwner: boolean;
 }) {
   const [filmEvents, setFilmEvents] = useState(initialFilmEvents);
   const [filmCandidates, setFilmCandidates] = useState(initialFilmCandidates);
   const playerRef = useRef<FilmPlayer | null>(null);
 
-  const hasReal = filmEvents.length > 0;
-  const events = hasReal ? filmEvents : sampleEvents;
   const allTimes = [...filmEvents.map((e) => e.time), ...filmCandidates];
-  const durationSeconds = hasReal
-    ? Math.max(...allTimes) + 30
-    : sampleDurationSeconds;
+  const durationSeconds = allTimes.length > 0 ? Math.max(...allTimes) + 30 : 30;
 
   const handlePlayerReady = useCallback((player: FilmPlayer) => {
     playerRef.current = player;
@@ -60,9 +59,9 @@ export function FilmRoomSection({
         bannerUrl={bannerUrl}
         highlightUrl={highlightUrl}
         highlightVideoUrl={highlightVideoUrl}
-        events={events}
+        events={filmEvents}
         durationSeconds={durationSeconds}
-        isSample={!hasReal}
+        isSample={false}
         onPlayerReady={handlePlayerReady}
       />
       {isOwner && (

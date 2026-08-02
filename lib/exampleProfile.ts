@@ -1,4 +1,18 @@
-import type { AthleteProfile } from "@/lib/types";
+import type { AthleteProfile, FilmEvent } from "@/lib/types";
+
+/** Illustrative sample data for the Film Room concept preview on the
+ * example profile only -- never shown on a real athlete's page, since a
+ * real athlete's video would make these timestamps seek to the wrong
+ * place. Real profiles only ever show an athlete's own self-tagged events
+ * or ones confirmed from the audio-spike function (see lib/audioSpikes.ts). */
+export const SAMPLE_FILM_EVENTS: FilmEvent[] = [
+  { type: "Takedown", time: 12, label: "Double leg, 1st period" },
+  { type: "Escape", time: 47, label: "Stand-up escape" },
+  { type: "Tilt", time: 89, label: "Near fall off the tilt" },
+  { type: "Takedown", time: 134, label: "Duck-under, 2nd period" },
+  { type: "Pin", time: 171, label: "Fall via half nelson" },
+];
+export const SAMPLE_FILM_DURATION_SECONDS = 240;
 
 /**
  * The one hardcoded demo profile used to show visitors what a completed

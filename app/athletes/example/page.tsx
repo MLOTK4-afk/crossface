@@ -1,7 +1,12 @@
 import type { Metadata } from "next";
-import { EXAMPLE_PROFILE } from "@/lib/exampleProfile";
+import {
+  EXAMPLE_PROFILE,
+  SAMPLE_FILM_EVENTS,
+  SAMPLE_FILM_DURATION_SECONDS,
+} from "@/lib/exampleProfile";
 import { ExampleBanner } from "@/components/profile/ExampleBanner";
 import { ProfileFull } from "@/components/profile/ProfileFull";
+import { FilmRoom } from "@/components/profile/FilmRoom";
 import { calculateFitScore } from "@/lib/fitScore";
 import { store } from "@/lib/storage";
 
@@ -27,6 +32,15 @@ export default async function ExampleProfilePage() {
         <ExampleBanner />
       </div>
       <ProfileFull athlete={EXAMPLE_PROFILE} fitScore={fitScore} />
+
+      {/* Illustrative only -- this demo profile has no real video, so the
+          Film Room here exists purely to show the concept. Real athlete
+          profiles never render sample timestamps like this. */}
+      <FilmRoom
+        events={SAMPLE_FILM_EVENTS}
+        durationSeconds={SAMPLE_FILM_DURATION_SECONDS}
+        isSample
+      />
     </div>
   );
 }
