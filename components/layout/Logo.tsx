@@ -29,7 +29,7 @@ export function Logo({
       <span
         className={
           stacked
-            ? "flex flex-col items-center gap-1"
+            ? "flex flex-col items-center gap-4"
             : "flex items-center gap-2"
         }
       >

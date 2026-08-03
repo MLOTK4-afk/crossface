@@ -6,6 +6,52 @@ import { HeroCTAs } from "@/components/home/HeroCTAs";
 import { HeroStats } from "@/components/home/HeroStats";
 import { gsap, useGSAP } from "@/lib/gsap";
 
+// Real New Jersey state outline (bounding box: x 994.8-1022.3, y 288.3-345.9
+// in its original source coordinate space) -- traced from a public-domain
+// US states map, not hand-drawn, so the silhouette is actually accurate:
+// https://github.com/WebsiteBeaver/interactive-and-responsive-svg-map-of-us-states-capitals
+function NJOutline({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="994.8 288.3 27.5 57.6"
+      fill="currentColor"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="M1002.2,290.3l-2.1,2.4v3.1l-1.9,3.1l-0.2,1.6l1.3,1.3l-0.2,2.4l-2.3,1.1l0.8,2.7l0.2,1.1l2.7,0.3l1,2.6l3.6,2.4l2.4,1.6v0.8l-3.2,3.1l-1.6,2.3l-1.5,2.7l-2.3,1.3l-1.2,0.7l-0.2,1.2l-0.6,2.6l1.1,2.2l3.2,2.9l4.8,2.3l4,0.6l0.2,1.5l-0.8,1l0.3,2.7h0.8l2.1-2.4l0.8-4.8l2.7-4l3.1-6.5l1.1-5.5l-0.6-1.1l-0.2-9.4l-1.6-3.4l-1.1,0.8l-2.7,0.3l-0.5-0.5l1.1-1l2.1-1.9l0.1-1.1l-0.4-3.4l0.5-2.7l-0.2-2.1l-2.6-1.1l-4.5-1l-3.9-1.1L1002.2,290.3z" />
+    </svg>
+  );
+}
+
+// A generic Turnpike-view water tower -- not tied to any real structure,
+// just the classic silhouette everyone driving through Jersey knows.
+function WaterTowerIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 60 110"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={className}
+    >
+      <path d="M14,30 Q30,14 46,30" />
+      <line x1="14" y1="30" x2="14" y2="48" />
+      <line x1="46" y1="30" x2="46" y2="48" />
+      <path d="M14,48 Q30,58 46,48" />
+      <line x1="18" y1="50" x2="6" y2="105" />
+      <line x1="42" y1="50" x2="54" y2="105" />
+      <line x1="24" y1="53" x2="20" y2="105" />
+      <line x1="36" y1="53" x2="40" y2="105" />
+      <line x1="9" y1="80" x2="51" y2="80" opacity="0.7" />
+      <line x1="16" y1="100" x2="44" y2="100" opacity="0.5" />
+      <line x1="30" y1="20" x2="30" y2="95" strokeDasharray="1.5 3" opacity="0.6" />
+    </svg>
+  );
+}
+
 export function Hero() {
   const sectionRef = useRef<HTMLElement>(null);
 
@@ -52,6 +98,13 @@ export function Hero() {
           </linearGradient>
         </defs>
       </svg>
+
+      <NJOutline
+        className="pointer-events-none absolute -bottom-6 -left-10 h-[320px] w-auto text-skyline-300 opacity-[0.06] sm:h-[460px]"
+      />
+      <WaterTowerIcon
+        className="pointer-events-none absolute bottom-8 right-6 hidden h-28 w-auto text-skyline-300 opacity-10 sm:block sm:h-36"
+      />
 
       <div className="relative mx-auto max-w-4xl text-center">
         <div className="hero-logo flex justify-center">
