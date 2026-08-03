@@ -6,7 +6,7 @@ function BoltIcon() {
   );
 }
 
-function TrophyIcon() {
+function LayersIcon() {
   return (
     <svg
       width="18"
@@ -18,12 +18,9 @@ function TrophyIcon() {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <path d="M8 4h8v5a4 4 0 0 1-8 0V4z" />
-      <path d="M8 5H5a2 2 0 0 0 2 4" />
-      <path d="M16 5h3a2 2 0 0 1-2 4" />
-      <path d="M12 13v3" />
-      <path d="M9 20h6" />
-      <path d="M10 16h4l1 4H9l1-4z" />
+      <polygon points="12 2 2 7 12 12 22 7 12 2" />
+      <polyline points="2 17 12 22 22 17" />
+      <polyline points="2 12 12 17 22 12" />
     </svg>
   );
 }
@@ -55,9 +52,9 @@ const STATS = [
     badgeClass: "border-electric-500/30 bg-electric-500/10 text-electric-500",
   },
   {
-    icon: TrophyIcon,
-    value: "15",
-    label: "sports supported",
+    icon: LayersIcon,
+    value: "4",
+    label: "levels supported",
     badgeClass: "border-electric-500/30 bg-electric-500/10 text-electric-500",
   },
   {
