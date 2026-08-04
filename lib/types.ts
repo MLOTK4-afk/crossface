@@ -34,6 +34,15 @@ export interface PriorMatch {
   time: string;
 }
 
+/** One daily weigh-in entry (lbs). At most one per calendar date -- a
+ * second log on the same day overwrites the first rather than duplicating
+ * it. Purely a personal trend log: never shown on the public profile, never
+ * paired with cut recommendations or calorie guidance. */
+export interface WeightEntry {
+  date: string;
+  weight: number;
+}
+
 /**
  * One additional sport beyond an athlete's primary `sport` — captures only
  * the fields that genuinely vary by sport (positions, jersey, stats,
@@ -105,6 +114,9 @@ export interface AthleteProfile {
   /** Self-reported prior matches, backing the Head-to-Head search on this
    * athlete's own profile. */
   matches?: PriorMatch[];
+  /** Private daily weigh-in log -- never rendered on the public profile,
+   * only in the owner's own Weight Log section. */
+  weighIns?: WeightEntry[];
   /** Public URL of an uploaded profile banner image (Supabase Storage). */
   bannerUrl?: string;
   achievements: string[];

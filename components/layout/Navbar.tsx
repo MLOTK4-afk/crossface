@@ -10,6 +10,7 @@ import { Button, LinkButton } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
 
 const NAV_LINKS = [
+  { href: "/scout", label: "Scout" },
   { href: "/browse", label: "Browse" },
   { href: "/leaderboard", label: "Leaderboard" },
   { href: "/coaches", label: "Coaches" },

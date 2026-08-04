@@ -95,6 +95,12 @@ alter table public.athletes add column if not exists highlight_video_url text;
 -- athlete labels or dismisses each one; labeling moves it into film_events.
 alter table public.athletes add column if not exists film_candidates jsonb;
 
+-- weigh_ins: private daily weigh-in log (date + weight), at most one entry
+-- per calendar date. Only ever rendered in the owner's own Weight Log
+-- section -- never shown on the public profile, and never paired with cut
+-- recommendations or calorie guidance.
+alter table public.athletes add column if not exists weigh_ins jsonb;
+
 -- ---------------------------------------------------------------------------
 -- scouting_boards + board_cards (coach kanban boards)
 -- ---------------------------------------------------------------------------

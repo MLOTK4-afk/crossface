@@ -16,6 +16,7 @@ import { ActivityTimeline } from "@/components/profile/ActivityTimeline";
 import { DownloadCardButton } from "@/components/profile/DownloadCardButton";
 import { FilmRoomSection } from "@/components/profile/FilmRoomSection";
 import { HeadToHeadSection } from "@/components/profile/HeadToHeadSection";
+import { WeightLogSection } from "@/components/profile/WeightLogSection";
 import { Card } from "@/components/ui/Card";
 
 export const dynamic = "force-dynamic";
@@ -86,6 +87,13 @@ export default async function AthletePage({
       </p>
 
       <ProfileFull athlete={finalAthlete} fitScore={fitScore} />
+
+      {isOwner && (
+        <WeightLogSection
+          athleteId={athlete.id}
+          initialWeighIns={finalAthlete.weighIns ?? []}
+        />
+      )}
 
       <FilmRoomSection
         bannerUrl={finalAthlete.bannerUrl}
