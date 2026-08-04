@@ -133,12 +133,14 @@ export function Hero() {
           <span className="hero-line text-gradient block">YOUR SHOT.</span>
         </h1>
         <p className="hero-copy mx-auto mt-6 max-w-xl text-lg text-skyline-300/80">
-          Upload your film and every takedown, escape, tilt, and pin gets{" "}
+          Upload your film and we&apos;ll scan the audio for moments worth
+          tagging, so you just{" "}
           <span className="font-semibold text-electric-500">
-            tagged automatically
+            confirm what happened
           </span>{" "}
-          — build your recruiting profile, log your record, and scout your
-          next opponent before you ever step on the mat.
+          instead of scrubbing tape — build your recruiting profile, log
+          your record, and scout your next opponent before you ever step on
+          the mat.
         </p>
 
         <HeroStats />
