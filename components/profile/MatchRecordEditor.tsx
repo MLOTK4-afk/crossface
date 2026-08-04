@@ -12,10 +12,14 @@ export function MatchRecordEditor({
   athleteId,
   matches,
   onMatchesChange,
+  defaultOpen = false,
+  title = "Log Your Matches",
 }: {
   athleteId: string;
   matches: PriorMatch[];
   onMatchesChange: (next: PriorMatch[]) => void;
+  defaultOpen?: boolean;
+  title?: string;
 }) {
   const [opponent, setOpponent] = useState("");
   const [school, setSchool] = useState("");
@@ -43,10 +47,11 @@ export function MatchRecordEditor({
   return (
     <div className="mt-6 rounded-lg border border-white/10 bg-white/5 p-5">
       <Disclosure
+        defaultOpen={defaultOpen}
         summary={
           <span className="flex items-center gap-2">
             <span className="text-sm uppercase tracking-wider text-slate-400">
-              Log Your Matches
+              {title}
             </span>
             {matches.length > 0 && <Badge>{matches.length}</Badge>}
           </span>
