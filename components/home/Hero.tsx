@@ -129,8 +129,8 @@ export function Hero() {
           New Jersey · East Coast · Wrestling Only
         </p>
         <h1 className="mt-4 text-5xl leading-[0.95] text-white sm:text-7xl">
-          <span className="hero-line block">EVERY TAKEDOWN</span>
-          <span className="hero-line text-gradient block">DESERVES TO BE SEEN</span>
+          <span className="hero-line block">YOUR RECORD. YOUR FILM.</span>
+          <span className="hero-line text-gradient block">YOUR SHOT.</span>
         </h1>
         <p className="hero-copy mx-auto mt-6 max-w-xl text-lg text-skyline-300/80">
           Upload your film and every takedown, escape, tilt, and pin gets{" "}
