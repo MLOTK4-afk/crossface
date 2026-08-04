@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Input } from "@/components/ui/Field";
 import { Button } from "@/components/ui/Button";
 import { Badge } from "@/components/ui/Badge";
+import { Disclosure } from "@/components/ui/Disclosure";
 import { useToast } from "@/lib/toast/ToastContext";
 
 export function TargetSchoolsEditor({
@@ -34,43 +35,51 @@ export function TargetSchoolsEditor({
 
   return (
     <div className="mt-6 rounded-lg border border-white/10 bg-white/5 p-5">
-      <h3 className="text-sm uppercase tracking-wider text-slate-400">
-        Manage Target Schools
-      </h3>
-      <div className="mt-3 flex flex-wrap gap-2">
-        {schools.map((school) => (
-          <Badge key={school} className="gap-1.5">
-            {school}
-            <button
-              type="button"
-              onClick={() => save(schools.filter((s) => s !== school))}
-              className="text-slate-500 hover:text-red-400"
-              aria-label={`Remove ${school}`}
-            >
-              ×
-            </button>
-          </Badge>
-        ))}
-      </div>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (newSchool.trim() && !schools.includes(newSchool.trim())) {
-            save([...schools, newSchool.trim()]);
-            setNewSchool("");
-          }
-        }}
-        className="mt-3 flex gap-2"
+      <Disclosure
+        summary={
+          <span className="flex items-center gap-2">
+            <span className="text-sm uppercase tracking-wider text-slate-400">
+              Target Schools
+            </span>
+            {schools.length > 0 && <Badge>{schools.length}</Badge>}
+          </span>
+        }
       >
-        <Input
-          placeholder="Add a school"
-          value={newSchool}
-          onChange={(e) => setNewSchool(e.target.value)}
-        />
-        <Button type="submit" size="sm" disabled={saving}>
-          Add
-        </Button>
-      </form>
+        <div className="mt-3 flex flex-wrap gap-2">
+          {schools.map((school) => (
+            <Badge key={school} className="gap-1.5">
+              {school}
+              <button
+                type="button"
+                onClick={() => save(schools.filter((s) => s !== school))}
+                className="text-slate-500 hover:text-red-400"
+                aria-label={`Remove ${school}`}
+              >
+                ×
+              </button>
+            </Badge>
+          ))}
+        </div>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (newSchool.trim() && !schools.includes(newSchool.trim())) {
+              save([...schools, newSchool.trim()]);
+              setNewSchool("");
+            }
+          }}
+          className="mt-3 flex gap-2"
+        >
+          <Input
+            placeholder="Add a school"
+            value={newSchool}
+            onChange={(e) => setNewSchool(e.target.value)}
+          />
+          <Button type="submit" size="sm" disabled={saving}>
+            Add
+          </Button>
+        </form>
+      </Disclosure>
     </div>
   );
 }

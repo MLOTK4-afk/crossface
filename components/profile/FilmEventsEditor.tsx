@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { Input, Select } from "@/components/ui/Field";
 import { Button } from "@/components/ui/Button";
+import { Badge } from "@/components/ui/Badge";
+import { Disclosure } from "@/components/ui/Disclosure";
 import { useToast } from "@/lib/toast/ToastContext";
 import type { FilmEvent } from "@/lib/types";
 import { formatFilmTime, parseFilmTime } from "@/lib/filmTime";
@@ -98,10 +100,23 @@ export function FilmEventsEditor({
 
   return (
     <div className="mt-6 rounded-lg border border-white/10 bg-white/5 p-5">
-      <h3 className="text-sm uppercase tracking-wider text-slate-400">
-        Tag Your Film
-      </h3>
-
+      <Disclosure
+        defaultOpen={candidates.length > 0}
+        summary={
+          <span className="flex items-center gap-2">
+            <span className="text-sm uppercase tracking-wider text-slate-400">
+              Tag Your Film
+            </span>
+            {candidates.length > 0 ? (
+              <Badge className="border-electric-500/40 bg-electric-500/10 text-electric-500">
+                {candidates.length} pending
+              </Badge>
+            ) : (
+              events.length > 0 && <Badge>{events.length}</Badge>
+            )}
+          </span>
+        }
+      >
       {candidates.length > 0 && (
         <div className="mt-3 rounded-md border border-electric-500/30 bg-electric-500/5 p-3">
           <p className="text-xs text-slate-300">
@@ -265,6 +280,7 @@ export function FilmEventsEditor({
         </form>
         {error && <p className="mt-2 text-xs text-red-400">{error}</p>}
       </details>
+      </Disclosure>
     </div>
   );
 }

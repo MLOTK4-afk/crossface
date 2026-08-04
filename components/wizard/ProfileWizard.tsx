@@ -353,7 +353,10 @@ export function ProfileWizard() {
                 />
               </div>
 
-              <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              <h3 className="mt-8 font-heading text-xs uppercase tracking-[0.2em] text-electric-500">
+                The Basics
+              </h3>
+              <div className="mt-4 grid gap-4 sm:grid-cols-2">
                 <div>
                   <Label htmlFor="level" required>
                     Level
@@ -435,7 +438,11 @@ export function ProfileWizard() {
                 <StatRowsEditor rows={statRows} onChange={setStatRows} />
               </div>
 
-              <div className="mt-6">
+              <h3 className="mt-8 border-t border-white/10 pt-6 font-heading text-xs uppercase tracking-[0.2em] text-electric-500">
+                Film &amp; Media
+              </h3>
+
+              <div className="mt-4">
                 <Label htmlFor="highlightUrl">Highlight Film Link</Label>
                 <Input
                   id="highlightUrl"
@@ -516,7 +523,11 @@ export function ProfileWizard() {
                 {bannerError && <FieldError>{bannerError}</FieldError>}
               </div>
 
-              <div className="mt-6">
+              <h3 className="mt-8 border-t border-white/10 pt-6 font-heading text-xs uppercase tracking-[0.2em] text-electric-500">
+                Story &amp; Achievements
+              </h3>
+
+              <div className="mt-4">
                 <Label>Achievements</Label>
                 <p className="mb-2 text-xs text-slate-500">
                   Specific honors and awards (e.g. &quot;Region Champion,&quot;
@@ -571,7 +582,10 @@ export function ProfileWizard() {
                 />
               </div>
 
-              <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              <h3 className="mt-8 border-t border-white/10 pt-6 font-heading text-xs uppercase tracking-[0.2em] text-electric-500">
+                Contact &amp; Commitment
+              </h3>
+              <div className="mt-4 grid gap-4 sm:grid-cols-2">
                 <div>
                   <Label htmlFor="contactEmail" required>
                     Contact Email

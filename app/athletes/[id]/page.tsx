@@ -18,6 +18,8 @@ import { FilmRoomSection } from "@/components/profile/FilmRoomSection";
 import { HeadToHeadSection } from "@/components/profile/HeadToHeadSection";
 import { WeightLogSection } from "@/components/profile/WeightLogSection";
 import { Card } from "@/components/ui/Card";
+import { Disclosure } from "@/components/ui/Disclosure";
+import { Badge } from "@/components/ui/Badge";
 
 export const dynamic = "force-dynamic";
 
@@ -120,34 +122,49 @@ export default async function AthletePage({
 
       {isOwner && momentum && (
         <Card className="mt-6 p-6">
-          <div className="flex items-center justify-between">
-            <h2 className="font-heading text-lg text-white">
-              Recruiting Momentum
-            </h2>
-            <MomentumBadge
-              label={momentum.label}
-              trendPercent={momentum.trendPercent}
-            />
-          </div>
-          <p className="mt-1 text-xs text-slate-500">
-            Only visible to you — based on views and coach interest over the
-            last 14 days vs. the 14 days before that.
-          </p>
-          {sparkline && (
-            <MomentumSparkline counts={sparkline} className="mt-4 h-12 w-full" />
-          )}
+          <Disclosure
+            summary={
+              <span className="flex items-center gap-3">
+                <span className="font-heading text-lg text-white">
+                  Recruiting Momentum
+                </span>
+                <MomentumBadge
+                  label={momentum.label}
+                  trendPercent={momentum.trendPercent}
+                />
+              </span>
+            }
+          >
+            <p className="mt-1 text-xs text-slate-500">
+              Only visible to you — based on views and coach interest over
+              the last 14 days vs. the 14 days before that.
+            </p>
+            {sparkline && (
+              <MomentumSparkline counts={sparkline} className="mt-4 h-12 w-full" />
+            )}
+          </Disclosure>
         </Card>
       )}
 
       {isOwner && activity && (
         <Card className="mt-6 p-6">
-          <h2 className="font-heading text-lg text-white">Activity Log</h2>
-          <p className="mt-1 text-xs text-slate-500">
-            Only visible to you and Crossface admins.
-          </p>
-          <div className="mt-4">
-            <ActivityTimeline events={activity} />
-          </div>
+          <Disclosure
+            summary={
+              <span className="flex items-center gap-3">
+                <span className="font-heading text-lg text-white">
+                  Activity Log
+                </span>
+                {activity.length > 0 && <Badge>{activity.length}</Badge>}
+              </span>
+            }
+          >
+            <p className="mt-1 text-xs text-slate-500">
+              Only visible to you and Crossface admins.
+            </p>
+            <div className="mt-4">
+              <ActivityTimeline events={activity} />
+            </div>
+          </Disclosure>
         </Card>
       )}
 
